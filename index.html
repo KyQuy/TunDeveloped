@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TUNDEVELOPED • KÝ QUỸ UY TÍN</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg:#07091a; --bg2:#0a0d1f; --surface:#0f1529; --card:#131c33; --card2:#172038;
+  --border:#1c2a47; --border2:#233256;
+  --cyan:#00e5ff; --cyan-dim:rgba(0,229,255,.1); --cyan-glow:rgba(0,229,255,.22);
+  --violet:#a78bfa; --violet-dim:rgba(167,139,250,.1);
+  --amber:#fbbf24; --amber-dim:rgba(251,191,36,.1);
+  --emerald:#10b981; --emerald-dim:rgba(16,185,129,.1);
+  --rose:#ff4d6d; --rose-dim:rgba(255,77,109,.1);
+  --blue:#60a5fa;
+  --red-stamp:#e8001a;
+  --text:#e8eef7; --text2:#8da0bb; --text3:#3d5275;
+  --font-head:'Plus Jakarta Sans',sans-serif;
+  --font-body:'Space Grotesk',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --r-sm:8px; --r-md:13px; --r-lg:18px; --r-xl:26px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bg-layer::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 10% -5%,rgba(0,229,255,.06) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 105%,rgba(167,139,250,.08) 0%,transparent 60%)}
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(0,229,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,.022) 1px,transparent 1px);
+  background-size:52px 52px}
+
+.welcome-overlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:12px;
+  background:rgba(4,6,18,.95);backdrop-filter:blur(18px);overflow-y:auto}
+.welcome-box{background:linear-gradient(160deg,#0c1230,#0f1840,#08101e);border:1px solid rgba(0,229,255,.22);border-radius:18px;
+  width:min(370px,94vw);max-height:88vh;overflow-y:auto;padding:16px 18px 14px;text-align:center;position:relative;
+  box-shadow:0 0 0 1px rgba(0,229,255,.07),0 20px 55px rgba(0,0,0,.9);
+  animation:welcomePop .4s cubic-bezier(.34,1.56,.64,1);scrollbar-width:none}
+.welcome-box::-webkit-scrollbar{display:none}
+@keyframes welcomePop{from{opacity:0;transform:scale(.9) translateY(16px)}to{opacity:1;transform:none}}
+.welcome-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--amber),var(--rose),var(--cyan));
+  background-size:200%;animation:shimmer 2.5s linear infinite}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+.welcome-box::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(0,229,255,.06),transparent);pointer-events:none}
+.wlc-logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--cyan),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-size:18px;color:#000;font-weight:900;
+  margin:0 auto 8px;box-shadow:0 0 20px rgba(0,229,255,.3);position:relative;z-index:1}
+.wlc-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:8.5px;
+  letter-spacing:1.8px;text-transform:uppercase;color:var(--emerald);background:var(--emerald-dim);
+  border:1px solid rgba(16,185,129,.22);padding:3px 10px;border-radius:20px;margin-bottom:7px;position:relative;z-index:1}
+.wlc-title{font-family:var(--font-head);font-size:clamp(16px,4vw,20px);font-weight:900;line-height:1.1;
+  margin-bottom:5px;position:relative;z-index:1}
+.wlc-title span{background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.wlc-desc{color:var(--text2);font-size:11.5px;line-height:1.6;margin-bottom:10px;position:relative;z-index:1;max-width:340px;margin-left:auto;margin-right:auto}
+.wlc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;position:relative;z-index:1}
+.wlc-stat{background:rgba(0,0,0,.3);border:1px solid var(--border2);border-radius:9px;padding:7px 4px}
+.wlc-stat-num{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--cyan)}
+.wlc-stat-lbl{font-family:var(--font-mono);font-size:7.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-top:1px}
+.wlc-rules{background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.15);border-radius:9px;
+  padding:8px 11px;margin-bottom:10px;text-align:left;position:relative;z-index:1}
+.wlc-rules-title{font-family:var(--font-head);font-weight:800;font-size:10.5px;color:var(--amber);
+  margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.wlc-rule{display:flex;align-items:flex-start;gap:6px;font-size:11px;color:var(--text2);margin-bottom:4px;line-height:1.4}
+.wlc-rule:last-child{margin-bottom:0}
+.wlc-rule i{color:var(--cyan);font-size:8.5px;margin-top:2px;flex-shrink:0}
+.btn-welcome{width:100%;padding:11px;border-radius:10px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--cyan),#0ea5e9,var(--violet));color:#000;font-weight:800;font-size:13px;
+  font-family:var(--font-head);letter-spacing:.4px;
+  box-shadow:0 5px 18px rgba(0,229,255,.28);transition:all .22s;position:relative;z-index:1}
+.btn-welcome:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,229,255,.42)}
+.wlc-note{font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-top:8px;position:relative;z-index:1}
+
+.topbar{position:sticky;top:0;z-index:200;height:62px;
+  background:rgba(7,9,26,.94);backdrop-filter:blur(32px) saturate(1.5);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+  box-shadow:0 1px 0 rgba(0,229,255,.06)}
+.tlogo{font-family:var(--font-head);font-weight:800;font-size:18px;display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none;color:inherit}
+.tlogo-ico{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-size:15px;color:#000;font-weight:900;box-shadow:0 0 20px var(--cyan-glow)}
+.tlogo-txt span{color:var(--cyan)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.online-pill{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;color:var(--emerald);background:var(--emerald-dim);border:1px solid rgba(16,185,129,.2);padding:5px 13px;border-radius:20px}
+.pdot{width:7px;height:7px;border-radius:50%;background:var(--emerald);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}}
+.btn-cart{width:42px;height:42px;border-radius:13px;border:1.5px solid var(--border2);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--cyan);font-size:17px;position:relative;transition:all .2s;margin-left:8px}
+.btn-cart:hover{background:var(--cyan-dim);border-color:var(--cyan)}
+.cart-badge{position:absolute;top:-7px;right:-7px;background:var(--rose);color:#fff;font-size:9px;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);border:2px solid #fff}
+
+.hero{position:relative;z-index:2;padding:56px 20px 42px;text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,229,255,.2);padding:6px 18px;border-radius:20px;margin-bottom:22px}
+.hero-title{font-family:var(--font-head);font-weight:900;font-size:clamp(28px,6vw,62px);line-height:1.07;letter-spacing:-1.5px;margin-bottom:12px}
+.hero-title .l1{display:block;color:var(--text)}
+.hero-title .l2{display:block;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{color:var(--text2);font-size:14px;max-width:500px;margin:0 auto 34px;line-height:1.82}
+.hero-stats{display:flex;justify-content:center;gap:46px;flex-wrap:wrap}
+.hs-box{text-align:center}
+.hs-num{font-family:var(--font-head);font-size:26px;font-weight:800;color:var(--cyan);display:block}
+.hs-lbl{font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:1.8px;text-transform:uppercase}
+
+.svc-strip{position:relative;z-index:2;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 16px 30px}
+.svc-btn{display:flex;align-items:center;gap:8px;padding:11px 20px;border-radius:var(--r-md);font-size:12.5px;font-weight:600;cursor:pointer;border:1px solid var(--border2);color:var(--text2);background:var(--surface);transition:all .22s;font-family:var(--font-body);white-space:nowrap}
+.svc-btn i{font-size:13px}
+.svc-btn:hover{color:var(--text);border-color:rgba(0,229,255,.28);transform:translateY(-2px)}
+.svc-btn.active{color:#000;background:linear-gradient(135deg,var(--cyan),var(--violet));border-color:transparent;box-shadow:0 6px 24px rgba(0,229,255,.3);transform:translateY(-2px)}
+.hot{display:inline-block;background:var(--rose);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:5px;margin-left:3px;font-family:var(--font-mono);animation:hotpulse 1.5s ease infinite}
+@keyframes hotpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,77,109,.5)}50%{box-shadow:0 0 0 4px rgba(255,77,109,0)}}
+
+.content-area{position:relative;z-index:2;padding:0 16px 80px}
+.wrap{max-width:1100px;margin:0 auto}
+.panel{display:none;animation:fadeUp .28s ease}
+.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.sec-head{text-align:center;margin-bottom:30px}
+.sec-head h2{font-family:var(--font-head);font-size:24px;font-weight:800;margin-bottom:6px}
+.sec-head h2 span{color:var(--cyan)}
+.sec-head p{color:var(--text2);font-size:13.5px}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+
+.cs-warn{display:flex;align-items:flex-start;gap:15px;padding:15px 20px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:var(--r-md);margin-bottom:26px;border-left:3px solid var(--amber)}
+.cs-warn-ico{font-size:19px;flex-shrink:0;margin-top:1px;color:var(--amber)}
+.cs-warn-title{font-family:var(--font-head);font-weight:700;font-size:13px;color:var(--amber);margin-bottom:4px}
+.cs-warn-desc{font-size:12.5px;color:var(--text2);line-height:1.68}
+
+.cs-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px}
+.cs-stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:17px 18px;display:flex;align-items:center;gap:14px;transition:all .24s;cursor:default}
+.cs-stat:hover{border-color:rgba(0,229,255,.22);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.cs-stat-ico{font-size:20px;flex-shrink:0;width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center}
+.cs-stat-ico.c{background:rgba(0,229,255,.1);color:var(--cyan)}
+.cs-stat-ico.e{background:rgba(16,185,129,.1);color:var(--emerald)}
+.cs-stat-ico.a{background:rgba(251,191,36,.1);color:var(--amber)}
+.cs-stat-ico.v{background:rgba(167,139,250,.1);color:var(--violet)}
+.cs-stat-val{font-family:var(--font-head);font-size:22px;font-weight:800}
+.cs-stat-lbl{font-family:var(--font-mono);font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:1.3px}
+
+.cs-search-row{display:flex;gap:10px;margin-bottom:20px;align-items:center}
+.cs-search-wrap{position:relative;flex:1}
+.cs-search{width:100%;padding:13px 18px 13px 46px;background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--r-md);color:var(--text);font-size:13.5px;font-family:var(--font-body);outline:none;transition:all .2s}
+.cs-search:focus{border-color:rgba(0,229,255,.4);box-shadow:0 0 0 3px rgba(0,229,255,.07)}
+.cs-search::placeholder{color:var(--text3)}
+.cs-search-ico{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none}
+.cs-count{font-family:var(--font-mono);font-size:12px;color:var(--text3);background:var(--surface);border:1px solid var(--border);padding:9px 18px;border-radius:var(--r-md);white-space:nowrap}
+
+.cs-thead{display:grid;grid-template-columns:50px 1fr 140px 150px 120px;gap:12px;padding:10px 22px;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:var(--r-md) var(--r-md) 0 0;font-family:var(--font-mono);font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px}
+.cs-list{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r-md) var(--r-md);overflow-y:auto;max-height:420px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.cs-list::-webkit-scrollbar{width:4px}
+.cs-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+.cs-row{display:grid;grid-template-columns:50px 1fr 140px 150px 120px;gap:12px;padding:16px 22px;background:var(--card);border-bottom:1px solid var(--border);cursor:pointer;transition:all .22s;align-items:center;position:relative}
+.cs-row:last-child{border-bottom:none}
+.cs-row:hover{background:var(--card2)}
+.cs-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background .22s}
+.cs-row:hover::before{background:var(--cyan)}
+.cs-row::after{content:'';position:absolute;left:0;top:0;bottom:0;right:0;background:linear-gradient(90deg,rgba(0,229,255,.04),transparent);opacity:0;transition:opacity .22s}
+.cs-row:hover::after{opacity:1}
+.cs-rank{font-family:var(--font-mono);font-size:14px;font-weight:700;text-align:center;position:relative;z-index:1}
+.cs-adm{display:flex;align-items:center;gap:13px;position:relative;z-index:1}
+.cs-ava{width:46px;height:46px;border-radius:50%;flex-shrink:0;object-fit:cover;border:2px solid}
+.cs-ava-fallback{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:19px;border:2px solid}
+.cs-aname{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.cs-ahandle{font-family:var(--font-mono);font-size:11px;color:var(--text3)}
+.cs-amount{font-family:var(--font-head);font-size:15px;font-weight:800;position:relative;z-index:1}
+.cs-date{font-family:var(--font-mono);font-size:11.5px;color:var(--text2);position:relative;z-index:1}
+.cs-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9.5px;font-weight:600;padding:4px 11px;border-radius:20px;text-transform:uppercase;letter-spacing:.7px;position:relative;z-index:1}
+.csb-top{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(251,191,36,.25)}
+.csb-ok{background:var(--emerald-dim);color:var(--emerald);border:1px solid rgba(16,185,129,.25)}
+.csb-new{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,229,255,.25)}
+.cs-empty{text-align:center;padding:52px 20px;color:var(--text3);font-family:var(--font-mono);font-size:13px}
+
+.deposit-section{margin-top:38px;padding:34px 32px;background:linear-gradient(135deg,rgba(232,0,26,.06),rgba(10,13,31,.97));border:2px solid rgba(232,0,26,.28);border-radius:var(--r-xl);position:relative;overflow:hidden;text-align:center}
+.deposit-section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red-stamp),#ff6b6b,var(--red-stamp))}
+.deposit-section::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,0,26,.09),transparent);pointer-events:none}
+.deposit-seal{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:94px;height:94px;border-radius:50%;border:4px solid var(--red-stamp);background:rgba(232,0,26,.08);box-shadow:0 0 0 3px rgba(232,0,26,.15),0 0 36px rgba(232,0,26,.18);transform:rotate(-8deg);margin:0 auto 22px;position:relative;z-index:1}
+.deposit-seal i{font-size:32px;color:var(--red-stamp)}
+.deposit-seal-txt{font-family:var(--font-mono);font-size:7px;font-weight:700;color:var(--red-stamp);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px}
+.deposit-title{font-family:var(--font-head);font-size:23px;font-weight:900;color:#fff;position:relative;z-index:1;margin-bottom:9px}
+.deposit-title span{color:var(--red-stamp)}
+.deposit-desc{color:var(--text2);font-size:13.5px;max-width:520px;margin:0 auto 26px;line-height:1.78;position:relative;z-index:1}
+.deposit-contacts{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:22px}
+.dep-contact-btn{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border-radius:var(--r-md);font-size:13.5px;font-weight:700;cursor:pointer;border:none;font-family:var(--font-body);text-decoration:none;transition:all .22s}
+.dep-zalo{background:linear-gradient(135deg,#0068ff,#0052cc);color:#fff;box-shadow:0 6px 22px rgba(0,104,255,.3)}
+.dep-zalo:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,104,255,.42)}
+.dep-tele{background:linear-gradient(135deg,#229ed9,#0088cc);color:#fff;box-shadow:0 6px 22px rgba(34,158,217,.3)}
+.dep-tele:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(34,158,217,.42)}
+.dep-note{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;color:var(--amber);background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);padding:9px 20px;border-radius:20px;position:relative;z-index:1}
+.cs-report-row{display:flex;justify-content:center;margin-top:22px}
+.btn-report{display:inline-flex;align-items:center;gap:10px;padding:14px 30px;border-radius:var(--r-lg);font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:var(--font-body);background:linear-gradient(135deg,var(--rose),#c2003a);color:#fff;box-shadow:0 6px 24px rgba(255,77,109,.32);transition:all .22s}
+.btn-report:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(255,77,109,.42)}
+
+.modal-bg{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.9);backdrop-filter:blur(16px);align-items:center;justify-content:center;padding:16px}
+.modal-bg.open{display:flex}
+.adm-modal{background:var(--card);border:1px solid rgba(0,229,255,.18);border-radius:var(--r-xl);width:min(560px,97vw);max-height:94vh;overflow-y:auto;animation:slideUp .3s ease;box-shadow:0 32px 90px rgba(0,0,0,.95),0 0 50px rgba(0,229,255,.08);position:relative}
+.adm-modal::-webkit-scrollbar{width:4px}
+.adm-modal::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+@keyframes slideUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.adm-mh{padding:32px 28px 24px;background:linear-gradient(160deg,#080c22,#0c1228,#080e1c);border-bottom:1px solid var(--border);position:relative;overflow:hidden;text-align:center}
+.adm-mh::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--amber))}
+.adm-mh::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 90% at 50% 0%,rgba(0,229,255,.09),transparent);pointer-events:none}
+.adm-ava-wrap{position:relative;width:90px;height:90px;margin:0 auto 16px;z-index:1}
+.adm-ava-img{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid;box-shadow:0 0 28px}
+.adm-ava-fb{width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid;box-shadow:0 0 28px}
+.stamp{position:absolute;bottom:-5px;right:-12px;z-index:10;width:62px;height:62px;border-radius:50%;border:3px solid var(--red-stamp);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-18deg);background:rgba(232,0,26,.09);box-shadow:0 0 0 2px rgba(232,0,26,.3),inset 0 0 14px rgba(232,0,26,.12),0 0 20px rgba(232,0,26,.2)}
+.stamp-txt{font-family:var(--font-mono);font-size:6px;font-weight:800;color:var(--red-stamp);text-transform:uppercase;letter-spacing:1px;text-align:center;line-height:1.3;opacity:.98}
+.stamp-star{font-size:10px;color:var(--red-stamp);opacity:.98;margin-bottom:1px;filter:drop-shadow(0 0 3px rgba(232,0,26,.5))}
+.adm-mname{font-family:var(--font-head);font-size:22px;font-weight:800;position:relative;z-index:1;margin-bottom:4px}
+.adm-mhandle{font-family:var(--font-mono);font-size:12px;color:var(--text3);margin-bottom:16px;position:relative;z-index:1}
+.adm-mbadges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.adm-mb{padding:26px 28px}
+.dep-banner{background:linear-gradient(135deg,rgba(16,185,129,.11),rgba(0,229,255,.07));border:1px solid rgba(16,185,129,.24);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:24px;display:flex;align-items:center;gap:18px}
+.dep-ico{font-size:22px;flex-shrink:0;width:50px;height:50px;border-radius:14px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;color:var(--emerald)}
+.dep-lbl{font-family:var(--font-mono);font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
+.dep-val{font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--emerald)}
+.dep-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.bank-card{background:linear-gradient(135deg,#0f1d36,#132040,#0d1830);border:1px solid rgba(96,165,250,.22);border-radius:var(--r-lg);padding:20px 22px;margin-bottom:24px;position:relative;overflow:hidden}
+.bank-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(96,165,250,.06)}
+.bank-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.bank-name-badge{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--blue);background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.22);padding:4px 13px;border-radius:6px}
+.bank-chip{width:30px;height:22px;border-radius:5px;background:linear-gradient(135deg,#f59e0b,#d97706)}
+.bank-stk{font-family:var(--font-mono);font-size:19px;font-weight:600;letter-spacing:3.5px;color:var(--text);margin-bottom:10px}
+.bank-row{display:flex;justify-content:space-between;align-items:flex-end}
+.bank-holder{font-size:14px;font-weight:700;color:var(--text);font-family:var(--font-head)}
+.info-sec-title{font-family:var(--font-mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.info-sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.irow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.irow:last-child{border-bottom:none}
+.irow-k{color:var(--text3);font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.7px}
+.irow-v{color:var(--text);font-weight:600}
+.svc-pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.svc-pill{font-family:var(--font-mono);font-size:10px;padding:4px 12px;border-radius:6px;background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,229,255,.2)}
+.contact-btn{display:flex;align-items:center;gap:13px;padding:13px 17px;border-radius:var(--r-md);text-decoration:none;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--text);transition:all .2s;font-family:var(--font-body);margin-bottom:8px}
+.contact-btn:last-child{margin-bottom:0}
+.contact-btn:hover{border-color:rgba(0,229,255,.3);background:var(--cyan-dim);transform:translateX(5px)}
+.cb-ico{font-size:17px;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);flex-shrink:0}
+.cb-plat{font-family:var(--font-mono);font-size:9.5px;color:var(--text3);letter-spacing:1.3px;text-transform:uppercase}
+.cb-val{font-size:14px;font-weight:600}
+.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text3);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .18s;z-index:20}
+.modal-close:hover{background:var(--rose-dim);color:var(--rose);border-color:var(--rose)}
+
+.verified-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(232,0,26,.07),rgba(180,0,20,.04));border:2px solid rgba(232,0,26,.4);border-radius:var(--r-md);margin-bottom:22px;box-shadow:0 0 18px rgba(232,0,26,.1),inset 0 0 20px rgba(232,0,26,.04);position:relative;overflow:hidden}
+.verified-row::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(232,0,26,.5),transparent)}
+.verified-icon-wrap{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#e8001a,#b00015);box-shadow:0 0 20px rgba(232,0,26,.5),0 0 40px rgba(232,0,26,.2);flex-shrink:0;border:2px solid rgba(232,0,26,.4)}
+.verified-icon-wrap i{font-size:20px;color:#fff;filter:drop-shadow(0 0 4px rgba(255,200,200,.6))}
+.verified-title{font-family:var(--font-head);font-size:14px;font-weight:900;color:#ff3a4e;margin-bottom:2px;text-shadow:0 0 12px rgba(232,0,26,.4);letter-spacing:.5px}
+.verified-sub{font-family:var(--font-mono);font-size:10px;color:var(--text3)}
+.verified-tag{margin-left:auto;font-family:var(--font-mono);font-size:9px;color:#ff3a4e;background:rgba(232,0,26,.12);border:1px solid rgba(232,0,26,.35);padding:4px 12px;border-radius:12px;white-space:nowrap;flex-shrink:0;font-weight:700}
+
+.avt-edit-modal{background:var(--card);border:1px solid rgba(0,229,255,.2);border-radius:var(--r-xl);width:min(420px,94vw);padding:28px;animation:slideUp .3s ease;box-shadow:0 30px 80px rgba(0,0,0,.9)}
+.avt-edit-modal h3{font-family:var(--font-head);font-size:18px;font-weight:800;margin-bottom:16px;color:var(--cyan)}
+
+.report-modal{background:var(--card);border:1px solid rgba(255,77,109,.22);border-radius:var(--r-xl);width:min(480px,94vw);animation:slideUp .3s ease;box-shadow:0 30px 80px rgba(0,0,0,.9),0 0 40px rgba(255,77,109,.1)}
+.rh{padding:26px 28px 18px;border-bottom:1px solid var(--border);position:relative}
+.rh::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rose),var(--amber))}
+.rh-title{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--rose);margin-bottom:4px}
+.rh-sub{font-size:13px;color:var(--text2)}
+.rb{padding:22px 28px 28px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;transition:all .28s;position:relative;overflow:hidden}
+.card:hover{border-color:rgba(0,229,255,.22);transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 28px var(--cyan-glow)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9.5px;font-weight:500;letter-spacing:1px;padding:3px 10px;border-radius:6px;margin-bottom:12px;text-transform:uppercase}
+.badge-cyan{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,229,255,.2)}
+.badge-violet{background:var(--violet-dim);color:var(--violet);border:1px solid rgba(167,139,250,.2)}
+.badge-amber{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(251,191,36,.2)}
+.badge-rose{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(255,77,109,.2)}
+.badge-green{background:var(--emerald-dim);color:var(--emerald);border:1px solid rgba(16,185,129,.2)}
+.ctitle{font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:4px}
+.cdesc{color:var(--text2);font-size:13px;margin-bottom:12px;line-height:1.6}
+.cprice{font-family:var(--font-head);font-size:28px;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0}
+.features{list-style:none;margin:12px 0}
+.features li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);margin-bottom:7px;line-height:1.5}
+.features li i{color:var(--cyan);font-size:10px;margin-top:4px;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:var(--r-md);border:none;cursor:pointer;font-weight:700;font-size:13px;font-family:var(--font-body);transition:all .22s;width:100%}
+.btn-cyan{background:linear-gradient(135deg,var(--cyan),#0ea5e9);color:#000;box-shadow:0 5px 18px rgba(0,229,255,.28)}
+.btn-cyan:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,229,255,.4)}
+.btn-violet{background:linear-gradient(135deg,var(--violet),#6d28d9);color:#fff;box-shadow:0 5px 18px rgba(167,139,250,.28)}
+.btn-violet:hover{transform:translateY(-3px)}
+.btn-rose{background:linear-gradient(135deg,var(--rose),#c2003a);color:#fff;box-shadow:0 5px 18px rgba(255,77,109,.28)}
+.btn-rose:hover{transform:translateY(-3px)}
+.btn-green{background:linear-gradient(135deg,var(--emerald),#059669);color:#000;box-shadow:0 5px 18px rgba(16,185,129,.25)}
+.btn-green:hover{transform:translateY(-3px)}
+.btn-outline{background:transparent;color:var(--cyan);border:1.5px solid rgba(0,229,255,.3);box-shadow:none}
+.btn-outline:hover{background:var(--cyan-dim);border-color:var(--cyan)}
+.btn-sm{padding:8px 15px;font-size:12px;width:auto}
+.btn-gray{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--text2)}
+.btn-gray:hover{background:rgba(255,255,255,.09);color:var(--text)}
+
+.sw-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all .28s}
+.sw-card:hover{border-color:rgba(167,139,250,.3);transform:translateY(-5px);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 28px rgba(167,139,250,.18)}
+.sw-thumb{height:132px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.sw-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65;transition:transform .4s,opacity .4s}
+.sw-card:hover .sw-thumb img{transform:scale(1.07);opacity:.82}
+.sw-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,13,31,.97) 0%,rgba(10,13,31,.2) 70%,transparent 100%)}
+.sw-ico{font-size:34px;position:relative;z-index:2}
+.sw-body{padding:16px}
+.sw-name{font-family:var(--font-head);font-size:15px;font-weight:700;margin-bottom:3px}
+.sw-meta{color:var(--text2);font-size:12px;margin-bottom:10px;line-height:1.55}
+.sw-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.sw-tag{font-family:var(--font-mono);font-size:9.5px;padding:2px 8px;border-radius:5px;background:var(--violet-dim);color:var(--violet);border:1px solid rgba(167,139,250,.2)}
+.plan-tabs{display:flex;gap:5px;margin-bottom:12px}
+.plan-tab{flex:1;padding:7px;text-align:center;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);color:var(--text3);background:transparent;transition:all .18s;font-family:var(--font-body)}
+.plan-tab.active{color:var(--violet);border-color:rgba(167,139,250,.38);background:var(--violet-dim)}
+.plan-tab.forever-tab{border-color:rgba(251,191,36,.28);color:var(--amber)}
+.plan-tab.forever-tab.active{color:#000;background:linear-gradient(135deg,var(--amber),#f97316);border-color:var(--amber);box-shadow:0 4px 14px rgba(251,191,36,.35);font-weight:800}
+.sw-pr-row{display:flex;align-items:center;justify-content:space-between}
+.sw-price{font-family:var(--font-head);font-size:19px;font-weight:800;color:var(--amber)}
+
+.fb-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all .28s}
+.fb-card:hover{border-color:rgba(96,165,250,.32);transform:translateY(-5px);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 26px rgba(96,165,250,.15)}
+.fb-thumb{height:150px;position:relative;overflow:hidden}
+.fb-thumb img{width:100%;height:100%;object-fit:cover;opacity:.65;transition:transform .4s,opacity .4s}
+.fb-card:hover .fb-thumb img{transform:scale(1.07);opacity:.82}
+.fb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,9,26,.99) 0%,rgba(7,9,26,.3) 55%,transparent 100%)}
+.fb-badge-wrap{position:absolute;top:12px;left:12px;z-index:2}
+.fb-ico-wrap{position:absolute;bottom:12px;left:14px;z-index:2;display:flex;align-items:center;gap:9px}
+.fb-ico-ball{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#1d4ed8,#2563eb);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.5)}
+.fb-ico-title{font-family:var(--font-head);font-weight:800;font-size:15px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.9)}
+.fb-body{padding:14px 16px 16px}
+.fb-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.fb-mtag{display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:9.5px;padding:3px 8px;border-radius:5px;background:rgba(96,165,250,.08);color:#60a5fa;border:1px solid rgba(96,165,250,.17)}
+.fb-desc{color:var(--text2);font-size:12px;line-height:1.65;margin-bottom:10px}
+.fb-price{font-family:var(--font-head);font-size:19px;font-weight:800;color:var(--blue);margin-bottom:10px}
+
+.collect-hero{background:linear-gradient(135deg,#0c1e10,#0f1529,#0a0d1f);border:1px solid rgba(16,185,129,.2);border-radius:var(--r-xl);padding:28px;margin-bottom:28px;text-align:center;position:relative;overflow:hidden}
+.collect-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(16,185,129,.1),transparent)}
+.pr-range{background:var(--emerald-dim);border:1px solid rgba(16,185,129,.2);border-radius:var(--r-md);padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.pr-lbl{font-size:13px;color:var(--text2)}
+.pr-val{font-family:var(--font-head);font-size:17px;font-weight:800;color:var(--emerald)}
+.trade-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px}
+.trade-box h3{font-family:var(--font-head);font-size:15px;font-weight:800;margin-bottom:16px;color:var(--cyan);display:flex;align-items:center;gap:7px}
+.inp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.inp-row .inp{margin-bottom:0}
+
+.chat-wrap{max-width:740px;margin:28px auto 0;border:1px solid var(--border2);border-radius:var(--r-xl);overflow:hidden}
+.chat-tb{background:linear-gradient(90deg,#0f1a40,var(--card2));border-bottom:1px solid var(--border);padding:13px 17px;display:flex;align-items:center;gap:11px}
+.chat-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1d4ed8,var(--cyan));display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;box-shadow:0 0 12px rgba(96,165,250,.4)}
+.chat-msgs{height:320px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;background:var(--bg2)}
+.chat-msgs::-webkit-scrollbar{width:3px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.mrow{display:flex;gap:7px;max-width:84%}
+.mrow.bot{align-self:flex-start}
+.mrow.user{align-self:flex-end;flex-direction:row-reverse}
+.mbub{padding:9px 13px;border-radius:13px;font-size:13px;line-height:1.6;animation:popIn .2s cubic-bezier(.34,1.56,.64,1)}
+.mrow.bot .mbub{background:var(--card2);border:1px solid var(--border);border-bottom-left-radius:3px}
+.mrow.user .mbub{background:linear-gradient(135deg,#1d4ed8,#7c3aed);color:#fff;border-bottom-right-radius:3px}
+@keyframes popIn{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:none}}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.chip{padding:5px 11px;border-radius:18px;font-size:11px;font-weight:600;cursor:pointer;background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);color:var(--blue);transition:all .17s;font-family:var(--font-body)}
+.chip:hover{background:rgba(96,165,250,.16);transform:translateY(-2px)}
+.dots span{width:6px;height:6px;border-radius:50%;background:var(--blue);opacity:.5;animation:da 1.2s infinite;display:inline-block;margin-right:3px}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes da{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-6px);opacity:1}}
+.chat-inp-bar{display:flex;gap:7px;padding:11px 14px;background:var(--surface);border-top:1px solid var(--border)}
+.chat-input{flex:1;padding:10px 15px;background:var(--card2);border:1.5px solid var(--border2);border-radius:22px;color:var(--text);font-size:13px;font-family:var(--font-body);outline:none;transition:all .2s}
+.chat-input:focus{border-color:rgba(96,165,250,.35)}
+.chat-input::placeholder{color:var(--text3)}
+.btn-send{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#1d4ed8,var(--violet));color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(96,165,250,.3);transition:all .2s;flex-shrink:0}
+.btn-send:hover{transform:scale(1.1)}
+
+.guide-tab{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r-md);font-size:12.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);color:var(--text2);background:var(--surface);transition:all .2s;font-family:var(--font-body)}
+.guide-tab:hover{color:var(--text);border-color:rgba(0,229,255,.28)}
+.guide-tab.active{color:#000;background:linear-gradient(135deg,var(--cyan),var(--violet));border-color:transparent;box-shadow:0 4px 18px rgba(0,229,255,.28)}
+.guide-hero{border:1px solid rgba(255,255,255,.06);border-radius:var(--r-xl);padding:28px;margin-bottom:24px;text-align:center}
+.guide-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.gstep{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 18px;transition:all .22s}
+.gstep:hover{border-color:rgba(0,229,255,.2);transform:translateX(4px)}
+.gstep-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:14px;font-weight:800;color:#000;flex-shrink:0;margin-top:1px}
+.gstep-num.gstep-amber{background:linear-gradient(135deg,var(--amber),#f97316)}
+.gstep-body{flex:1}
+.gstep-title{font-family:var(--font-head);font-size:14px;font-weight:700;margin-bottom:4px}
+.gstep-desc{font-size:12.5px;color:var(--text2);line-height:1.68}
+.guide-note{display:flex;align-items:flex-start;gap:10px;padding:13px 16px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.18);border-radius:var(--r-md);font-size:12.5px;color:var(--text2);line-height:1.65}
+.guide-note i{margin-top:1px;flex-shrink:0;font-size:13px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{padding:15px 0;font-family:var(--font-head);font-weight:700;font-size:13.5px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:color .15s}
+.faq-q:hover,.faq-q.open{color:var(--cyan)}
+.faq-a{display:none;font-size:13px;line-height:1.75;color:var(--text2);padding-bottom:15px}
+.faq-a.open{display:block}
+.faq-arr{font-size:12px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.faq-q.open .faq-arr{transform:rotate(180deg)}
+
+.info-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;align-items:flex-start;gap:12px}
+.ic-ico{font-size:18px;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic-title{font-family:var(--font-head);font-weight:700;font-size:13.5px;margin-bottom:3px}
+.ic-desc{font-size:12px;color:var(--text2);line-height:1.6}
+
+.pay-modal{background:var(--card);border:1px solid rgba(0,229,255,.2);border-radius:var(--r-xl);width:min(440px,92vw);padding:28px;animation:slideUp .3s ease;box-shadow:0 30px 80px rgba(0,0,0,.85),0 0 36px var(--cyan-glow);position:relative}
+.pay-title{font-family:var(--font-head);font-size:19px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:18px}
+.qr-img{max-width:100%;border-radius:var(--r-md);display:block;margin:12px auto;box-shadow:0 8px 28px rgba(0,0,0,.7)}
+.note-box{background:rgba(0,0,0,.35);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px;font-size:11.5px;font-family:var(--font-mono);color:var(--text2);word-break:break-all;margin-bottom:10px}
+
+.admin-card{max-width:480px;margin:0 auto;background:var(--card);border:1px solid rgba(251,191,36,.2);border-radius:var(--r-xl);padding:28px;text-align:center;position:relative;overflow:hidden}
+.admin-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--rose),var(--cyan))}
+.admin-ava{width:76px;height:76px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,var(--violet),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;border:3px solid rgba(251,191,36,.28);box-shadow:0 0 24px rgba(251,191,36,.2);overflow:hidden}
+.admin-ava img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.admin-name{font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--amber)}
+.admin-role{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:1.5px;margin-bottom:22px;text-transform:uppercase}
+.cl{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:var(--r-md);text-decoration:none;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--text);transition:all .2s;font-family:var(--font-body);margin-bottom:8px}
+.cl:hover{border-color:rgba(0,229,255,.3);background:var(--cyan-dim);transform:translateX(5px)}
+.cl:last-child{margin-bottom:0}
+.cl-ico{font-size:17px;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);flex-shrink:0}
+.cl-plat{font-family:var(--font-mono);font-size:9.5px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase}
+.cl-val{font-size:14px;font-weight:600}
+
+/* ── INP ── */
+.inp{width:100%;padding:12px 16px;margin-bottom:10px;background:rgba(0,0,0,.35);border:1.5px solid var(--border2);border-radius:var(--r-md);color:var(--text);font-size:13.5px;font-family:var(--font-body);outline:none;transition:all .2s}
+.inp:focus{border-color:rgba(0,229,255,.4);box-shadow:0 0 0 3px rgba(0,229,255,.07)}
+.inp::placeholder{color:var(--text3)}
+textarea.inp{resize:vertical;min-height:80px}
+select.inp{cursor:pointer}
+
+/* ===== THÊM CSS CHO CARD MỚI, GIỎ HÀNG, QR ===== */
+.prod-card{background:var(--card);border:1px solid var(--border);border-radius:22px;overflow:hidden;transition:all .28s;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.3);display:flex;flex-direction:column}
+.prod-card:hover{border-color:rgba(0,229,255,.3);transform:translateY(-6px);box-shadow:0 14px 48px rgba(0,229,255,.15)}
+.prod-thumb{height:150px;position:relative;overflow:hidden;background:linear-gradient(135deg,#0f1529,#131c33)}
+.prod-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s;opacity:.8}
+.prod-card:hover .prod-thumb img{transform:scale(1.07);opacity:.95}
+.prod-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,13,31,.8),transparent 55%)}
+.prod-badge{position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9.5px;font-weight:700;padding:5px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.7px;z-index:2}
+.prod-badge-cyan{background:rgba(0,229,255,.12);color:var(--cyan);border:1px solid rgba(0,229,255,.25)}
+.prod-badge-violet{background:rgba(167,139,250,.12);color:var(--violet);border:1px solid rgba(167,139,250,.25)}
+.prod-badge-amber{background:rgba(251,191,36,.12);color:var(--amber);border:1px solid rgba(251,191,36,.25)}
+.prod-badge-rose{background:rgba(255,77,109,.12);color:var(--rose);border:1px solid rgba(255,77,109,.25)}
+.prod-badge-green{background:rgba(16,185,129,.12);color:var(--emerald);border:1px solid rgba(16,185,129,.25)}
+.prod-body{padding:16px;display:flex;flex-direction:column;flex:1}
+.prod-subject{font-family:var(--font-mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.prod-name{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.35}
+.prod-desc{color:var(--text2);font-size:12px;margin-bottom:10px;line-height:1.65}
+.prod-price-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.prod-price{font-family:var(--font-head);font-size:20px;font-weight:900;color:var(--cyan)}
+.prod-actions{display:flex;gap:7px;flex-shrink:0}
+
+.cart-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;margin-bottom:26px}
+.cart-empty{text-align:center;padding:56px 20px;color:var(--text3);font-size:13.5px}
+.cart-empty i{font-size:42px;color:var(--border2);display:block;margin-bottom:14px}
+.cart-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-item:last-of-type{border-bottom:none}
+.cart-item-img{width:56px;height:56px;border-radius:12px;object-fit:cover;background:var(--bg2);flex-shrink:0;border:1px solid var(--border)}
+.cart-item-body{flex:1}
+.cart-item-name{font-family:var(--font-head);font-weight:700;font-size:13.5px;color:var(--text);margin-bottom:3px}
+.cart-item-price{font-family:var(--font-mono);font-size:12.5px;color:var(--cyan);font-weight:600}
+.cart-total{display:flex;justify-content:space-between;align-items:center;padding:16px;background:linear-gradient(135deg,var(--cyan-dim),var(--violet-dim));border-radius:var(--r-md);margin-top:16px;border:1px solid var(--border)}
+.cart-total-lbl{font-family:var(--font-head);font-weight:700;font-size:13.5px;color:var(--text)}
+.cart-total-val{font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--cyan)}
+
+.qr-box{text-align:center}
+.qr-img{max-width:200px;border-radius:16px;display:block;margin:0 auto 16px;box-shadow:0 8px 28px rgba(0,0,0,.7);border:2px solid var(--border2)}
+.qr-amount{font-family:var(--font-head);font-size:30px;font-weight:900;color:var(--cyan);margin:8px 0}
+.qr-note-box{background:rgba(0,0,0,.35);border:1px solid var(--border2);border-radius:12px;padding:13px 16px;font-size:13px;font-family:var(--font-mono);color:var(--text2);word-break:break-all;margin-bottom:14px;text-align:left}
+.bank-info{background:linear-gradient(135deg,#0f1d36,#132040);border:1px solid rgba(96,165,250,.22);border-radius:var(--r-md);padding:16px 20px;margin-bottom:16px}
+.bank-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
+.bank-row:last-child{border-bottom:none}
+.bank-key{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
+.bank-val{font-size:13.5px;font-weight:700;color:var(--text);font-family:var(--font-head)}
+.status-step{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:var(--r-md);margin-bottom:8px;font-size:12.5px;font-weight:600}
+.status-step.done{background:var(--emerald-dim);color:var(--emerald);border:1px solid rgba(16,185,129,.22)}
+.status-step.active-step{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,229,255,.22)}
+.status-step.pending{background:rgba(0,0,0,.3);color:var(--text3);border:1px solid var(--border)}
+.success-anim{text-align:center;padding:24px 0}
+.success-circle{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,var(--emerald),#059669);display:flex;align-items:center;justify-content:center;font-size:36px;color:#fff;margin:0 auto 16px;box-shadow:0 10px 28px rgba(16,185,129,.38);animation:successPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes successPop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+
+.btn-icon{padding:8px;width:38px;height:38px;border-radius:11px}
+.btn-icon i{font-size:14px}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid rgba(0,229,255,.2);color:var(--text);padding:12px 24px;border-radius:var(--r-md);font-size:13.5px;z-index:99999;display:none;box-shadow:0 8px 30px rgba(0,0,0,.7),0 0 20px var(--cyan-glow);font-family:var(--font-body);max-width:90vw;text-align:center}
+
+@media(max-width:700px){
+  .cs-thead,.cs-row{grid-template-columns:38px 1fr 110px;gap:8px;padding:11px 14px}
+  .cs-thead .th-date,.cs-thead .th-status,.cs-date,.cs-badge{display:none}
+  .adm-mb{padding:18px}
+}
+@media(max-width:600px){
+  .topbar{padding:0 14px}
+  .hero{padding:40px 14px 30px}
+  .hero-stats{gap:24px}
+  .svc-strip{gap:6px;padding:0 10px 22px}
+  .svc-btn{padding:9px 12px;font-size:11.5px}
+  .inp-row{grid-template-columns:1fr}
+  .deposit-contacts{flex-direction:column;align-items:center}
+  .wlc-stats{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+
+<audio id="bgAudio" loop preload="auto" playsinline></audio>
+<script>
+  const audio=document.getElementById('bgAudio');
+  audio.volume=0.6;
+  audio.src='https://files.catbox.moe/92yl11.mov';
+  function tryPlay(){audio.play().catch(()=>{audio.muted=true;audio.play().then(()=>setTimeout(()=>audio.muted=false,10)).catch(()=>{})})}
+  window.addEventListener('load',()=>{tryPlay();setTimeout(tryPlay,0)});
+  document.addEventListener('click',()=>{if(audio.paused)tryPlay()},{once:true});
+  document.addEventListener('touchstart',()=>{if(audio.paused)tryPlay()},{once:true});
+</script>
+
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-box">
+    <div class="wlc-logo"><i class="fas fa-shield-halved"></i></div>
+    <div class="wlc-badge"><div class="pdot"></div> Hệ thống xác minh uy tín</div>
+    <div class="wlc-title">CHÀO MỪNG ĐẾN<br><span>TUN DEVELOPED</span></div>
+    <div class="wlc-desc">Sàn giao dịch số uy tín — tất cả ADMIN đều đã ký quỹ bảo đảm. Nếu bị lừa bởi ADMIN trong danh sách, TunDeveloped bồi thường 100% từ quỹ mà ĐÃ CỌC.</div>
+    <div class="wlc-stats">
+      <div class="wlc-stat"><div class="wlc-stat-num" id="wStats1">4</div><div class="wlc-stat-lbl">Admin Ký Quỹ</div></div>
+      <div class="wlc-stat"><div class="wlc-stat-num">100%</div><div class="wlc-stat-lbl">Xác Minh</div></div>
+      <div class="wlc-stat"><div class="wlc-stat-num">24/7</div><div class="wlc-stat-lbl">Hỗ Trợ</div></div>
+    </div>
+    <div class="wlc-rules">
+      <div class="wlc-rules-title"><i class="fas fa-shield-halved" style="color:var(--amber)"></i> QUY TẮC AN TOÀN GIAO DỊCH</div>
+      <div class="wlc-rule"><i class="fas fa-check-circle"></i> Chỉ giao dịch với ADMIN có tên trong danh sách ký quỹ chính thức.</div>
+      <div class="wlc-rule"><i class="fas fa-check-circle"></i> Kiểm tra số STK ngân hàng khớp với thông tin hiển thị trên hệ thống.</div>
+      <div class="wlc-rule"><i class="fas fa-check-circle"></i> Tất cả giao dịch đều có bảo hành — hoàn tiền nếu thất bại.</div>
+      <div class="wlc-rule"><i class="fas fa-triangle-exclamation" style="color:var(--rose)"></i> Cảnh báo: Gặp nick giả mạo? Báo cáo ngay để xử lý trong 24h.</div>
+    </div>
+    <button class="btn-welcome" onclick="closeWelcome()"><i class="fas fa-arrow-right" style="margin-right:8px"></i>TRUY CẬP HỆ THỐNG</button>
+    <div class="wlc-note">© TunDeveloped VIP Shop — Uy tín · Bảo đảm · 24/7</div>
+  </div>
+</div>
+
+<nav class="topbar">
+  <a class="tlogo" onclick="showHome()">
+    <div class="tlogo-ico"><i class="fas fa-shield-halved"></i></div>
+    <div class="tlogo-txt">TUN<span>DEVELOPED</span></div>
+  </a>
+  <div class="topbar-right">
+    <div class="online-pill"><div class="pdot"></div><span>ONLINE 24/7</span></div>
+    <button class="btn-cart" onclick="showPanel('cart')" title="Giỏ hàng">
+      <i class="fas fa-cart-shopping"></i>
+      <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag"><i class="fas fa-certificate"></i>&nbsp; TUN DEVELOPED • UY TÍN ĐẢM BẢO</div>
+  <h1 class="hero-title">
+    <span class="l1">DANH  SÁCH  ADMIN</span>
+    <span class="l2">KÝ QUỸ & UY TÍN</span>
+  </h1>
+  <p class="hero-sub">Tra cứu thông tin admin đã ký quỹ. Chỉ giao dịch với người có tên trong danh sách để được bảo vệ 100%.</p>
+  <div class="hero-stats">
+    <div class="hs-box"><span class="hs-num" id="statAdmins">0</span><span class="hs-lbl">Admin Ký Quỹ</span></div>
+    <div class="hs-box"><span class="hs-num" id="statOrders">0+</span><span class="hs-lbl">Đơn Thành Công</span></div>
+    <div class="hs-box"><span class="hs-num">100%</span><span class="hs-lbl">Xác Minh</span></div>
+  </div>
+</div>
+
+<div class="svc-strip">
+  <button class="svc-btn" onclick="showPanel('sw')"><i class="fas fa-microchip"></i> Phần Mềm <span class="hot">HOT</span></button>
+  <button class="svc-btn" onclick="showPanel('fb')"><i class="fab fa-facebook-f"></i> Dịch Vụ Facebook <span class="hot">HOT</span></button>
+  <button class="svc-btn" onclick="showPanel('collect')"><i class="fas fa-gamepad"></i> Thu Acc Free Fire</button>
+  <button class="svc-btn" onclick="showPanel('guide')"><i class="fas fa-book-open"></i> Hướng Dẫn</button>
+  <button class="svc-btn" onclick="showPanel('admin')"><i class="fas fa-crown"></i> Liên Hệ Admin</button>
+  <button class="svc-btn" onclick="showPanel('cart')"><i class="fas fa-cart-shopping"></i> Giỏ hàng</button>
+</div>
+
+<div class="content-area">
+<div class="wrap">
+
+  <!-- HOME VIEW (DANH SÁCH ADMIN KÝ QUỸ) -->
+  <div id="home-view">
+    <div class="cs-warn">
+      <div class="cs-warn-ico"><i class="fas fa-triangle-exclamation"></i></div>
+      <div>
+        <div class="cs-warn-title">⚠️ Cảnh báo giao dịch</div>
+        <div class="cs-warn-desc">Chỉ giao dịch với admin có tên trong danh sách bên dưới. Số tiền ký quỹ là bảo đảm uy tín — nếu bị lừa bởi ADMIN trong danh sách, TunDeveloped sẽ bồi thường từ quỹ tương ứng. Nếu gặp nick giả mạo, hãy báo cáo ngay.</div>
+      </div>
+    </div>
+    <div class="cs-top" id="csTopStats"></div>
+    <div class="cs-search-row">
+      <div class="cs-search-wrap">
+        <i class="fas fa-magnifying-glass cs-search-ico"></i>
+        <input class="cs-search" id="csSearch" placeholder="Tìm kiếm tên admin, username..." oninput="filterAdmins()">
+      </div>
+      <div class="cs-count" id="csCount">0 admin</div>
+    </div>
+    <div class="cs-thead">
+      <span>#</span><span>Admin</span><span>Số Tiền Cọc</span><span class="th-date">Ngày Ký Quỹ</span><span class="th-status">Trạng Thái</span>
+    </div>
+    <div class="cs-list" id="csList"></div>
+    <div class="deposit-section">
+      <div class="deposit-seal"><i class="fas fa-stamp"></i><div class="deposit-seal-txt">KÝ QUỸ</div></div>
+      <div class="deposit-title">ĐĂNG KÝ <span>KÝ QUỸ</span> ADMIN</div>
+      <div class="deposit-desc">Muốn trở thành admin được xác minh? Liên hệ ngay để ký quỹ và được gắn dấu uy tín chính thống trên hệ thống TunDeveloped. Quỹ do TunDev giữ — đảm bảo minh bạch hoàn toàn.</div>
+      <div class="deposit-contacts">
+        <a class="dep-contact-btn dep-zalo" href="https://zalo.me/0378099746" target="_blank"><i class="fas fa-comment-dots"></i> Zalo: 0378099746</a>
+        <a class="dep-contact-btn dep-tele" href="https://t.me/TunDevelopedReal" target="_blank"><i class="fab fa-telegram"></i> Telegram: @TunDevelopedReal</a>
+      </div>
+      <div class="dep-note"><i class="fas fa-info-circle"></i> Phí ký quỹ tối thiểu từ 500.000₫ — Admin phản hồi trong vài phút</div>
+    </div>
+    <div class="cs-report-row">
+      <button class="btn-report" onclick="openReport()"><i class="fas fa-flag"></i> BÁO CÁO SCAM / GIẢ MẠO</button>
+    </div>
+  </div>
+
+  <!-- PANEL PHẦN MỀM (CARD MỚI) -->
+  <div class="panel" id="panel-sw">
+    <div class="sec-head"><h2><i class="fas fa-microchip" style="color:var(--violet);margin-right:8px"></i><span>PHẦN MỀM</span> VIP</h2><p>Tool chuyên dụng — kích hoạt tức thì, hỗ trợ cài đặt</p></div>
+    <div class="g3" id="swGrid"></div>
+    <div style="margin-top:36px">
+      <div class="sec-head"><h2><i class="fas fa-cart-shopping" style="color:var(--cyan);margin-right:8px"></i>ĐẶT MUA PHẦN MỀM</h2><p>Điền thông tin, admin gửi key trong 15 phút</p></div>
+      <div class="trade-box" style="max-width:560px;margin:0 auto">
+        <h3><i class="fas fa-clipboard-list"></i> Form Đặt Hàng</h3>
+        <div class="inp-row"><input class="inp" placeholder="Tên phần mềm" id="sw-name"><select class="inp" id="sw-plan"><option value="">Chọn gói...</option><option>1 Ngày</option><option>7 Ngày</option><option>30 Ngày</option><option>Vĩnh Viễn</option></select></div>
+        <input class="inp" placeholder="Tên thiết bị (VD: iPhone 17, Redmi 13...)" id="sw-device">
+        <input class="inp" placeholder="Số Zalo / Telegram để nhận key" id="sw-contact">
+        <textarea class="inp" placeholder="Ghi chú thêm (nếu có)..." id="sw-note" rows="3"></textarea>
+        <button class="btn btn-violet" onclick="submitSW()"><i class="fas fa-paper-plane"></i> GỬI ĐƠN ĐẶT MUA</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:28px">
+      <div class="info-card"><div class="ic-ico" style="background:rgba(0,229,255,.1);color:var(--cyan)"><i class="fas fa-bolt"></i></div><div><div class="ic-title">Kích hoạt tức thì</div><div class="ic-desc">Nhận key trong 15 phút sau thanh toán.</div></div></div>
+      <div class="info-card"><div class="ic-ico" style="background:rgba(167,139,250,.1);color:var(--violet)"><i class="fas fa-shield-halved"></i></div><div><div class="ic-title">Bảo hành đầy đủ</div><div class="ic-desc">Key lỗi đổi mới ngay, không cần giải thích.</div></div></div>
+      <div class="info-card"><div class="ic-ico" style="background:rgba(251,191,36,.1);color:var(--amber)"><i class="fas fa-screwdriver-wrench"></i></div><div><div class="ic-title">Hỗ trợ cài đặt</div><div class="ic-desc">Hướng dẫn chi tiết qua Zalo/Tele.</div></div></div>
+      <div class="info-card"><div class="ic-ico" style="background:rgba(16,185,129,.1);color:var(--emerald)"><i class="fas fa-credit-card"></i></div><div><div class="ic-title">Thanh toán an toàn</div><div class="ic-desc">QR, Momo, banking đều được.</div></div></div>
+    </div>
+  </div>
+
+  <!-- PANEL DỊCH VỤ FACEBOOK (CARD MỚI) -->
+  <div class="panel" id="panel-fb">
+    <div style="background:linear-gradient(135deg,#0d0e2e,#0c1121,#090c1f);border:1px solid rgba(96,165,250,.2);border-radius:var(--r-xl);padding:28px;margin-bottom:28px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(96,165,250,.12),transparent);pointer-events:none"></div>
+      <div style="font-size:46px;margin-bottom:12px;position:relative;z-index:1;color:#4267B2"><i class="fab fa-facebook"></i></div>
+      <h3 style="font-family:var(--font-head);font-size:22px;font-weight:800;margin-bottom:6px;position:relative;z-index:1">DỊCH VỤ FACEBOOK CHUYÊN NGHIỆP</h3>
+      <p style="color:var(--text2);font-size:13.5px;position:relative;z-index:1">Mở khoá, kháng cáo, checkpoint, tăng tương tác — cam kết hoàn tiền nếu thất bại</p>
+    </div>
+    <div class="g3" style="margin-bottom:28px" id="fbGrid"></div>
+    <div class="chat-wrap">
+      <div class="chat-tb">
+        <div class="chat-av"><i class="fas fa-headset"></i></div>
+        <div style="flex:1"><div style="font-family:var(--font-head);font-weight:700;font-size:14px">TunDeveloped Support</div><div style="font-size:11px;color:var(--emerald);font-family:var(--font-mono)">● Đang hoạt động</div></div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">24/7</div>
+      </div>
+      <div class="chat-msgs" id="chatMessages"></div>
+      <div class="chat-inp-bar">
+        <input class="chat-input" id="chatInput" placeholder="Nhập câu hỏi về Facebook..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="btn-send" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+    <div style="margin-top:32px"><div class="sec-head"><h2><i class="fas fa-circle-question" style="color:var(--cyan);margin-right:8px"></i>CÂU HỎI THƯỜNG GẶP</h2></div>
+    <div id="faqList" style="max-width:680px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:0 20px"></div></div>
+  </div>
+
+  <!-- PANEL GIỎ HÀNG -->
+  <div class="panel" id="panel-cart">
+    <div class="sec-head"><h2><i class="fas fa-cart-shopping" style="color:var(--coral);margin-right:8px"></i>GIỎ <span>HÀNG</span></h2><p>Xem lại sản phẩm và tiến hành thanh toán</p></div>
+    <div class="cart-panel">
+      <div id="cartItems"></div>
+      <div id="cartTotalRow" style="display:none">
+        <div class="cart-total">
+          <div class="cart-total-lbl"><i class="fas fa-receipt" style="margin-right:7px;color:var(--cyan)"></i>Tổng tiền</div>
+          <div class="cart-total-val" id="cartTotalVal">0đ</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+          <button class="btn btn-gray btn-full" onclick="clearCart()"><i class="fas fa-trash"></i> Xóa giỏ</button>
+          <button class="btn btn-cyan btn-full" onclick="openCheckout()"><i class="fas fa-qrcode"></i> THANH TOÁN QR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL THU ACC FREEFIRE (GIỮ NGUYÊN) -->
+  <div class="panel" id="panel-collect">
+    <div class="collect-hero">
+      <div style="font-size:42px;margin-bottom:12px;position:relative;z-index:1;color:var(--emerald)"><i class="fas fa-gamepad"></i></div>
+      <h3 style="font-family:var(--font-head);font-size:22px;font-weight:800;margin-bottom:6px;position:relative;z-index:1">THU MUA ACC FREE FIRE — GIÁ CAO NHẤT</h3>
+      <p style="color:var(--text2);font-size:13px;position:relative;z-index:1">Admin trực tiếp định giá, thanh toán ngay. Uy tín · Nhanh · Bảo mật</p>
+    </div>
+    <div class="g2" style="margin-bottom:28px">
+      <div class="card"><div class="badge badge-rose"><i class="fas fa-fire"></i> FREE FIRE</div><div class="ctitle">Bảng Giá Thu Mua</div>
+        <div class="pr-range"><span class="pr-lbl">Acc Nhiều Đồ Cổ</span><span class="pr-val">50K – 200K</span></div>
+        <div class="pr-range"><span class="pr-lbl">Acc Nhiều Đồ Hiếm</span><span class="pr-val">150K – 500K</span></div>
+        <div class="pr-range"><span class="pr-lbl">Acc Đồ Hiếm Nhiều</span><span class="pr-val">500K – 3.000K</span></div>
+        <button class="btn btn-green" style="margin-top:12px" onclick="document.getElementById('colForm').scrollIntoView({behavior:'smooth'})"><i class="fas fa-hand-holding-dollar"></i> GỬI ACC ĐỂ ĐỊNH GIÁ</button>
+      </div>
+      <div class="card"><div class="badge badge-amber"><i class="fas fa-star"></i> YẾU TỐ TĂNG GIÁ</div><div class="ctitle">Cộng Điểm Thu Mua</div>
+        <div class="pr-range"><span class="pr-lbl">Lv 70+</span><span class="pr-val">+10–30%</span></div>
+        <div class="pr-range"><span class="pr-lbl">Skin súng VIP</span><span class="pr-val">+50K–300K/evo</span></div>
+        <div class="pr-range"><span class="pr-lbl">Pets hiếm / ĐỒ CENA - BÁC GẤU</span><span class="pr-val">+20–500K</span></div>
+        <div class="pr-range"><span class="pr-lbl">Nick OTP / ID VIP</span><span class="pr-val">+50K–200K</span></div>
+        <button class="btn btn-green" style="margin-top:12px" onclick="document.getElementById('colForm').scrollIntoView({behavior:'smooth'})"><i class="fas fa-hand-holding-dollar"></i> GỬI ACC ĐỂ ĐỊNH GIÁ</button>
+      </div>
+    </div>
+    <div class="trade-box" style="max-width:580px;margin:0 auto" id="colForm">
+      <h3><i class="fas fa-tag"></i> Form Gửi Acc Định Giá</h3>
+      <div class="inp-row"><input class="inp" placeholder="Server (VD: VN, SG...)" id="col-server"><input class="inp" placeholder="LOGIN ?" id="col-rank"></div>
+      <textarea class="inp" placeholder="Nội dung: Skin súng + Đồ HOT" id="col-desc" rows="4"></textarea>
+      <input class="inp" placeholder="Link ảnh chụp acc (drive/imgur)" id="col-img">
+      <input class="inp" placeholder="Giá mong muốn — để trống nhờ Admin định giá" id="col-price" type="number">
+      <input class="inp" placeholder="Zalo / Telegram để Admin liên hệ" id="col-contact">
+      <button class="btn btn-green" onclick="submitCollect()"><i class="fas fa-paper-plane"></i> GỬI THÔNG TIN — ADMIN ĐỊNH GIÁ NGAY</button>
+    </div>
+  </div>
+
+  <!-- PANEL HƯỚNG DẪN (GIỮ NGUYÊN) -->
+  <div class="panel" id="panel-guide">
+    <div class="sec-head"><h2><i class="fas fa-book-open" style="color:var(--cyan);margin-right:8px"></i>HƯỚNG DẪN <span>SỬ DỤNG</span></h2><p>Từng bước cụ thể — đọc kỹ trước khi sử dụng</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;justify-content:center">
+      <button class="guide-tab active" onclick="switchGuide('g-buy',this)"><i class="fas fa-bag-shopping"></i> Mua Tool</button>
+      <button class="guide-tab" onclick="switchGuide('g-key',this)"><i class="fas fa-key"></i> Kích Hoạt Key</button>
+      <button class="guide-tab" onclick="switchGuide('g-pay',this)"><i class="fas fa-qrcode"></i> Thanh Toán</button>
+      <button class="guide-tab" onclick="switchGuide('g-trouble',this)"><i class="fas fa-triangle-exclamation"></i> Xử Lý Lỗi</button>
+    </div>
+    <div class="guide-section" id="g-buy">
+      <div class="guide-hero" style="background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(0,229,255,.05))">
+        <div style="font-size:38px;margin-bottom:10px;color:var(--violet)"><i class="fas fa-cart-shopping"></i></div>
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:800;margin-bottom:6px">Cách Mua Tool / Phần Mềm</div>
+        <div style="color:var(--text2);font-size:13px">Làm theo đúng thứ tự, nhận key trong 15 phút</div>
+      </div>
+      <div class="guide-steps">
+        <div class="gstep"><div class="gstep-num">1</div><div class="gstep-body"><div class="gstep-title">Chọn tool muốn mua</div><div class="gstep-desc">Vào tab <strong style="color:var(--violet)">Phần Mềm</strong>, xem mô tả từng tool, bấm <strong style="color:var(--violet)">Mua ngay</strong> trên tool bạn muốn.</div></div></div>
+        <div class="gstep"><div class="gstep-num">2</div><div class="gstep-body"><div class="gstep-title">Điền thông tin thanh toán</div><div class="gstep-desc">Nhập số điện thoại và chọn thiết bị (iPhone / Android). Bấm <strong style="color:var(--cyan)">Tạo mã QR</strong>.</div></div></div>
+        <div class="gstep"><div class="gstep-num">3</div><div class="gstep-body"><div class="gstep-title">Quét QR chuyển khoản</div><div class="gstep-desc">Dùng app ngân hàng quét mã QR. Nhớ giữ nguyên nội dung chuyển khoản — đây là mã định danh đơn hàng.</div></div></div>
+        <div class="gstep"><div class="gstep-num">4</div><div class="gstep-body"><div class="gstep-title">Bấm "Đã thanh toán"</div><div class="gstep-desc">Sau khi chuyển xong, bấm nút <strong style="color:var(--emerald)">Đã thanh toán — Thông báo Admin</strong> để hệ thống ghi nhận.</div></div></div>
+        <div class="gstep"><div class="gstep-num">5</div><div class="gstep-body"><div class="gstep-title">Nhận key qua Zalo/Telegram</div><div class="gstep-desc">Admin gửi key trong vòng <strong style="color:var(--cyan)">15 phút</strong>. Nếu quá 15 phút chưa nhận được, liên hệ admin ngay.</div></div></div>
+      </div>
+      <div class="guide-note"><i class="fas fa-circle-info" style="color:var(--amber)"></i> Nếu mua qua form đặt hàng, admin sẽ liên hệ lại qua Zalo/Telegram bạn để xác nhận và gửi hướng dẫn thanh toán.</div>
+    </div>
+    <div class="guide-section" id="g-key" style="display:none">
+      <div class="guide-hero" style="background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(167,139,250,.05))">
+        <div style="font-size:38px;margin-bottom:10px;color:var(--amber)"><i class="fas fa-key"></i></div>
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:800;margin-bottom:6px">Kích Hoạt Key</div>
+        <div style="color:var(--text2);font-size:13px">Hướng dẫn nhập key cho từng loại tool</div>
+      </div>
+      <div class="guide-steps">
+        <div class="gstep"><div class="gstep-num gstep-amber">1</div><div class="gstep-body"><div class="gstep-title">Nhận key từ admin</div><div class="gstep-desc">Key được gửi qua Zalo hoặc Telegram dạng text, ví dụ: <code style="background:rgba(0,0,0,.4);padding:2px 7px;border-radius:5px;font-size:11px;color:var(--cyan)">TUNDEV-XXXX-XXXX-XXXX</code></div></div></div>
+        <div class="gstep"><div class="gstep-num gstep-amber">2</div><div class="gstep-body"><div class="gstep-title">Tải & cài đặt tool</div><div class="gstep-desc">Admin gửi kèm link tải. Nếu trên iOS cần Trust Profile: <strong>Cài đặt → Cài đặt chung → Quản lý thiết bị</strong> → Trust ứng dụng.</div></div></div>
+        <div class="gstep"><div class="gstep-num gstep-amber">3</div><div class="gstep-body"><div class="gstep-title">Mở app & nhập key</div><div class="gstep-desc">Mở tool lên, tìm ô <strong>Nhập Key / Activate</strong>, dán key vào và bấm xác nhận. Key chỉ dùng được trên 1 thiết bị đã đăng ký.</div></div></div>
+        <div class="gstep"><div class="gstep-num gstep-amber">4</div><div class="gstep-body"><div class="gstep-title">Kiểm tra hoạt động</div><div class="gstep-desc">Tool báo <strong style="color:var(--emerald)">Active / Kích hoạt thành công</strong> là xong. Nếu báo lỗi "Key invalid" — liên hệ admin ngay để đổi key.</div></div></div>
+      </div>
+      <div class="guide-note"><i class="fas fa-triangle-exclamation" style="color:var(--rose)"></i> Không chia sẻ key cho người khác — key bị dùng 2 thiết bị sẽ bị thu hồi tự động, không được bảo hành.</div>
+    </div>
+    <div class="guide-section" id="g-pay" style="display:none">
+      <div class="guide-hero" style="background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(16,185,129,.05))">
+        <div style="font-size:38px;margin-bottom:10px;color:var(--cyan)"><i class="fas fa-qrcode"></i></div>
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:800;margin-bottom:6px">Hướng Dẫn Thanh Toán</div>
+        <div style="color:var(--text2);font-size:13px">Chuyển khoản QR nhanh, an toàn</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px">
+        <div class="card"><div style="font-size:22px;color:var(--cyan);margin-bottom:10px"><i class="fas fa-mobile-screen"></i></div><div style="font-family:var(--font-head);font-weight:700;margin-bottom:6px">Quét QR bằng app ngân hàng</div><div style="font-size:12.5px;color:var(--text2);line-height:1.65">Mọi app ngân hàng Việt đều hỗ trợ quét VietQR. Mở app → chọn Quét QR → quét mã → xác nhận số tiền và nội dung.</div></div>
+        <div class="card"><div style="font-size:22px;color:var(--violet);margin-bottom:10px"><i class="fas fa-file-invoice-dollar"></i></div><div style="font-family:var(--font-head);font-weight:700;margin-bottom:6px">Nội dung chuyển khoản</div><div style="font-size:12.5px;color:var(--text2);line-height:1.65"><strong style="color:var(--rose)">Bắt buộc</strong> giữ nguyên nội dung hệ thống tự điền (dạng TUNDEVELOPED-xxxxxx). Sai nội dung admin không xác nhận được đơn.</div></div>
+        <div class="card"><div style="font-size:22px;color:var(--emerald);margin-bottom:10px"><i class="fas fa-clock"></i></div><div style="font-family:var(--font-head);font-weight:700;margin-bottom:6px">Thời gian xử lý</div><div style="font-size:12.5px;color:var(--text2);line-height:1.65">Sau khi bấm "Đã thanh toán", admin nhận thông báo tức thì và xử lý trong <strong style="color:var(--cyan)">5–15 phút</strong>. Giờ cao điểm tối đa 30 phút.</div></div>
+        <div class="card"><div style="font-size:22px;color:var(--amber);margin-bottom:10px"><i class="fas fa-rotate-left"></i></div><div style="font-family:var(--font-head);font-weight:700;margin-bottom:6px">Chính sách hoàn tiền</div><div style="font-size:12.5px;color:var(--text2);line-height:1.65">Đã thanh toán nhưng tool lỗi / không như mô tả → liên hệ admin trong <strong style="color:var(--amber)">24h</strong> để được hoàn tiền hoặc đổi sản phẩm khác.</div></div>
+      </div>
+      <div class="guide-note"><i class="fas fa-shield-halved" style="color:var(--emerald)"></i> Tài khoản ngân hàng nhận tiền khớp với thông tin hiển thị trên hệ thống — nếu STK khác, <strong style="color:var(--rose)">đừng chuyển</strong> và báo cáo ngay.</div>
+    </div>
+    <div class="guide-section" id="g-trouble" style="display:none">
+      <div class="guide-hero" style="background:linear-gradient(135deg,rgba(255,77,109,.08),rgba(251,191,36,.05))">
+        <div style="font-size:38px;margin-bottom:10px;color:var(--rose)"><i class="fas fa-screwdriver-wrench"></i></div>
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:800;margin-bottom:6px">Xử Lý Sự Cố Thường Gặp</div>
+        <div style="color:var(--text2);font-size:13px">Tự khắc phục trước khi liên hệ admin</div>
+      </div>
+      <div style="max-width:680px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:0 20px" id="troubleFaqList"></div>
+      <div style="margin-top:20px;text-align:center">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text3);margin-bottom:12px">Vẫn chưa giải quyết được? Liên hệ ngay</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a class="dep-contact-btn dep-zalo" href="https://zalo.me/0378099746" target="_blank" style="font-size:13px;padding:11px 22px"><i class="fas fa-comment-dots"></i> Zalo hỗ trợ</a>
+          <a class="dep-contact-btn dep-tele" href="https://t.me/TunDevelopedReal" target="_blank" style="font-size:13px;padding:11px 22px"><i class="fab fa-telegram"></i> Telegram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL LIÊN HỆ ADMIN (GIỮ NGUYÊN) -->
+  <div class="panel" id="panel-admin">
+    <div class="sec-head"><h2><i class="fas fa-crown" style="color:var(--amber);margin-right:8px"></i>LIÊN HỆ <span>ADMIN</span></h2><p>Hỗ trợ 24/7 — Phản hồi trong 5 phút</p></div>
+    <div class="admin-card">
+      <div class="admin-ava" id="adminMainAva"></div>
+      <div class="admin-name" id="adminMainName">TunDev Admin</div>
+      <div class="admin-role" id="adminMainRole">• Shop Owner • 24/7 Support •</div>
+      <a class="cl" href="https://zalo.me/0378099746" target="_blank"><div class="cl-ico"><i class="fas fa-comment-dots" style="color:#0068ff"></i></div><div style="flex:1;text-align:left"><div class="cl-plat">ZALO</div><div class="cl-val">0378099746</div></div><i class="fas fa-arrow-up-right-from-square" style="color:var(--text3);font-size:11px"></i></a>
+      <a class="cl" href="https://t.me/TunDevelopedReal" target="_blank"><div class="cl-ico"><i class="fab fa-telegram" style="color:#229ed9"></i></div><div style="flex:1;text-align:left"><div class="cl-plat">TELEGRAM</div><div class="cl-val">@TUNDEVELOPED_REAL</div></div><i class="fas fa-arrow-up-right-from-square" style="color:var(--text3);font-size:11px"></i></a>
+      <a class="cl" href="https://www.facebook.com/share/1JLrcpbJ1F/?mibextid=wwXIfr" target="_blank"><div class="cl-ico"><i class="fab fa-facebook-f" style="color:#4267B2"></i></div><div style="flex:1;text-align:left"><div class="cl-plat">FACEBOOK</div><div class="cl-val">Thành Đạt</div></div><i class="fas fa-arrow-up-right-from-square" style="color:var(--text3);font-size:11px"></i></a>
+    </div>
+    <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:460px;margin-left:auto;margin-right:auto">
+      <div class="card" style="text-align:center"><div style="font-size:22px;margin-bottom:7px;color:var(--cyan)"><i class="fas fa-clock"></i></div><div style="font-family:var(--font-head);font-weight:700;font-size:13px">Phản hồi trong</div><div style="color:var(--cyan);font-family:var(--font-head);font-size:20px;font-weight:800">5 phút</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:22px;margin-bottom:7px;color:var(--emerald)"><i class="fas fa-lock"></i></div><div style="font-family:var(--font-head);font-weight:700;font-size:13px">Giao dịch</div><div style="color:var(--emerald);font-family:var(--font-head);font-size:20px;font-weight:800">Bảo đảm</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- MODAL ADMIN (GIỮ NGUYÊN) -->
+<div class="modal-bg" id="admModal">
+  <div class="adm-modal" id="admModalInner"></div>
+</div>
+
+<!-- MODAL AVATAR (GIỮ NGUYÊN) -->
+<div class="modal-bg" id="avtModal">
+  <div class="avt-edit-modal" style="position:relative">
+    <button class="modal-close" onclick="closeAvtModal()"><i class="fas fa-xmark"></i></button>
+    <h3><i class="fas fa-image" style="margin-right:8px"></i>Cập Nhật Ảnh Đại Diện</h3>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:16px">Admin ID: <strong id="avtAdminId" style="color:var(--cyan)"></strong></p>
+    <input class="inp" placeholder="https://example.com/anh.jpg" id="avtUrlInput">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <img id="avtPreview" src="" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--border2);display:none;flex-shrink:0">
+      <button class="btn btn-outline btn-sm" onclick="previewAvt()"><i class="fas fa-eye"></i> Xem trước</button>
+    </div>
+    <button class="btn btn-cyan" onclick="saveAvt()"><i class="fas fa-check"></i> LƯU ẢNH</button>
+  </div>
+</div>
+
+<!-- MODAL BÁO CÁO (GIỮ NGUYÊN) -->
+<div class="modal-bg" id="reportModal">
+  <div class="report-modal" style="position:relative">
+    <button class="modal-close" onclick="closeReport()"><i class="fas fa-xmark"></i></button>
+    <div class="rh">
+      <div class="rh-title"><i class="fas fa-flag" style="margin-right:8px"></i>Báo Cáo Scam / Giả Mạo</div>
+      <div class="rh-sub">Điền đầy đủ thông tin, chúng tôi xử lý trong 24h</div>
+    </div>
+    <div class="rb">
+      <input class="inp" placeholder="Tên / username kẻ lừa đảo" id="rp-name">
+      <input class="inp" placeholder="Số tiền bị lừa (VNĐ)" id="rp-amount" type="number">
+      <select class="inp" id="rp-platform"><option value="">Nền tảng giao dịch...</option><option>Zalo</option><option>Telegram</option><option>Facebook</option><option>Khác</option></select>
+      <textarea class="inp" placeholder="Mô tả chi tiết sự việc..." id="rp-desc" rows="4"></textarea>
+      <input class="inp" placeholder="Link bằng chứng (ảnh, video...)" id="rp-proof">
+      <input class="inp" placeholder="Zalo / Telegram của bạn để chúng tôi liên hệ" id="rp-contact">
+      <button class="btn btn-rose" onclick="submitReport()"><i class="fas fa-paper-plane"></i> GỬI BÁO CÁO</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CHECKOUT MỚI (THANH TOÁN QR) -->
+<div class="modal-bg" id="checkoutModal">
+  <div class="adm-modal" style="width:min(500px,96vw)">
+    <button class="modal-close" onclick="closeModal('checkoutModal')"><i class="fas fa-xmark"></i></button>
+    <div class="adm-mh" style="padding:22px 20px 16px">
+      <div class="adm-mname" style="font-size:18px"><i class="fas fa-qrcode" style="margin-right:8px;color:var(--cyan)"></i>Thanh toán QR</div>
+      <div class="adm-mhandle" style="color:var(--text2)">Quét bằng app ngân hàng — nhanh & an toàn</div>
+    </div>
+    <div class="adm-mb" style="padding:20px">
+      <div id="checkoutStep1">
+        <div style="background:var(--cyan-dim);border:1px solid rgba(0,229,255,.18);border-radius:var(--r-md);padding:16px;margin-bottom:16px;font-size:13px;color:var(--text2)">
+          <strong style="color:var(--cyan)"><i class="fas fa-basket-shopping"></i> Đơn hàng của bạn:</strong>
+          <div id="co-summary" style="margin-top:10px"></div>
+          <div style="margin-top:10px;font-family:var(--font-head);font-size:22px;font-weight:900;color:var(--cyan)">Tổng: <span id="co-total-lbl">0đ</span></div>
+        </div>
+        <label class="inp-label" style="display:block;font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:5px;text-transform:uppercase">Số Zalo của bạn *</label>
+        <input class="inp" id="co-phone" placeholder="VD: 0378 099 746" type="tel" maxlength="12">
+        <div style="font-size:11.5px;color:var(--text3);margin-top:-8px;margin-bottom:14px"><i class="fas fa-info-circle"></i> Admin sẽ liên hệ qua Zalo này</div>
+        <label class="inp-label" style="display:block;font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:5px;text-transform:uppercase">Tên người mua</label>
+        <input class="inp" id="co-name" placeholder="VD: Nguyễn Văn A">
+        <label class="inp-label" style="display:block;font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:5px;text-transform:uppercase">Ghi chú thêm</label>
+        <textarea class="inp" id="co-note" rows="2" placeholder="Yêu cầu đặc biệt..."></textarea>
+        <button class="btn btn-cyan btn-full" onclick="generateQR()" style="margin-top:8px"><i class="fas fa-qrcode"></i> TẠO MÃ QR</button>
+        <button class="btn btn-gray btn-full" onclick="closeModal('checkoutModal')" style="margin-top:8px">Quay lại</button>
+      </div>
+      <div id="checkoutStep2" style="display:none">
+        <div class="qr-box">
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);margin-bottom:10px">QUÉT QR ĐỂ HOÀN TẤT</div>
+          <img class="qr-img" id="qrImg" alt="QR">
+          <div class="qr-amount" id="qrAmount">0đ</div>
+          <div class="qr-note-box">
+            <div style="font-family:var(--font-mono);font-size:9.5px;color:var(--text3);margin-bottom:4px">NỘI DUNG CK (KHÔNG THAY ĐỔI):</div>
+            <strong id="qrNote" style="font-size:13px"></strong>
+          </div>
+        </div>
+        <div class="bank-info">
+          <div class="bank-row"><span class="bank-key">Ngân hàng</span><span class="bank-val">Techcombank (TCB)</span></div>
+          <div class="bank-row"><span class="bank-key">Số tài khoản</span><span class="bank-val" id="qrSTK">1907 6281 2020 11</span></div>
+          <div class="bank-row"><span class="bank-key">Chủ tài khoản</span><span class="bank-val">TRAN DAO THANH DAT</span></div>
+        </div>
+        <div style="margin-bottom:14px">
+          <div class="status-step done"><i class="fas fa-circle-check"></i> Chọn sản phẩm</div>
+          <div class="status-step done"><i class="fas fa-circle-check"></i> Nhập thông tin</div>
+          <div class="status-step active-step"><i class="fas fa-spinner fa-spin"></i> Đang chờ thanh toán...</div>
+          <div class="status-step pending"><i class="fas fa-circle"></i> Admin xác nhận & gửi</div>
+        </div>
+        <button class="btn btn-outline btn-full" onclick="copyQRNote()" style="margin-bottom:9px"><i class="fas fa-copy"></i> SAO CHÉP NỘI DUNG CK</button>
+        <button class="btn btn-green btn-full" onclick="confirmPaid()"><i class="fas fa-check-circle"></i> XÁC NHẬN ĐÃ THANH TOÁN</button>
+        <button class="btn btn-gray btn-full" style="margin-top:8px" onclick="closeModal('checkoutModal')">Đóng</button>
+      </div>
+      <div id="checkoutStep3" style="display:none">
+        <div class="success-anim" id="successAnim">
+          <div class="success-circle"><i class="fas fa-check"></i></div>
+          <div style="font-family:var(--font-head);font-size:20px;font-weight:900;color:var(--emerald);margin-bottom:8px">Cảm ơn bạn!</div>
+          <div style="color:var(--text2);font-size:13.5px;margin-bottom:20px;line-height:1.75">Admin đã được thông báo và sẽ liên hệ qua <strong style="color:var(--cyan)">Zalo <span id="paidPhone"></span></strong> trong 15 phút.</div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <a class="btn btn-cyan" href="https://zalo.me/0378099746" target="_blank"><i class="fas fa-comment-dots"></i> Mở Zalo</a>
+            <button class="btn btn-gray" onclick="closeModal('checkoutModal');clearCart()"><i class="fas fa-home"></i> Về trang chủ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ==================== CẤU HÌNH & DỮ LIỆU CŨ ====================
+const BOT_TOKEN='8646409964:AAFd6HoskhO8H7Fcw5a7aEz7jlD_y53um1c';
+const CHAT_ID='8580769327';
+const ACCT_NAME='TUNDEVELOPED SHOP';
+
+const ADMINS = [
+  {
+    id:1,
+    name:'TUNDEVELOPED',
+    handle:'@TunDevelopedReal',
+    avt:'https://files.catbox.moe/irqsqf.jpeg',
+    emoji:'👑',
+    grad:'linear-gradient(135deg,#7c3aed,#00e5ff)',
+    borderColor:'rgba(167,139,250,.55)',
+    glowColor:'rgba(167,139,250,.65)',
+    amount:10000000,
+    depositDate:'12/01/2025',
+    bank:'Techcombank',
+    stk:'1907 6281 2020 11',
+    holder:'TRAN DAO THANH DAT ',
+    content:'Admin Quản lý Website ',
+    lastActive:'Hôm nay',
+    status:'top',
+    statusTxt:'TOP ADMIN',
+    role:'Shop Owner · Quản lý chính',
+    totalOrders:4823,
+    successRate:99.2,
+    joinDate:'Tháng 1, 2024',
+    services:['Phần Mềm','Dịch Vụ FB','Thu Acc FF','Proxy','Hỗ Trợ 24/7'],
+    contacts:[
+      {ico:'<i class="fas fa-comment-dots" style="color:#0068ff"></i>',plat:'ZALO',val:'0378099746',link:'https://zalo.me/0378099746'},
+      {ico:'<i class="fab fa-telegram" style="color:#229ed9"></i>',plat:'TELEGRAM',val:'@TunDevelopedReal',link:'https://t.me/TunDevelopedReal'},
+      {ico:'<i class="fab fa-facebook-f" style="color:#4267B2"></i>',plat:'FACEBOOK',val:'Thành Đạt',link:'https://www.facebook.com/share/1JLrcpbJ1F/?mibextid=wwXIfr'}
+    ]
+  },
+  {
+    id:2,
+    name:' Nguyễn Phú Đại',
+    handle:'@NguyenPhuDai',
+    avt:'',
+    emoji:'🌎',
+    grad:'linear-gradient(135deg,#1d4ed8,#00e5ff)',
+    borderColor:'rgba(0,229,255,.5)',
+    glowColor:'rgba(0,229,255,.55)',
+    amount:3000000,
+    depositDate:'05/03/2025',
+    bank:'Vietcombank',
+    stk:'0071 0006 3388 88',
+    holder:' Chăm chỉ từng ngày ',
+    content:'Thu mua bán Acc uy tín',
+    lastActive:'Hôm nay',
+    status:'ok',
+    statusTxt:'Xác Minh',
+    role:'Support · Dịch vụ Facebook',
+    totalOrders:1240,
+    successRate:97.5,
+    joinDate:'Tháng 3, 2026',
+    services:['Mở Khoá FB','Kháng Cáo','Vượt Checkpoint','Khôi Phục Hack'],
+    contacts:[
+      {ico:'<i class="fas fa-comment-dots" style="color:#0068ff"></i>',plat:'ZALO',val:'Liên hệ TunDev Admin',link:'https://zalo.me/0378099741'},
+      {ico:'<i class="fab fa-telegram" style="color:#229ed9"></i>',plat:'TELEGRAM',val:'@NguyenPhuDai',link:'https://t.me/TunDevelopedReall'}
+    ]
+  },
+  {
+    id:3,
+    name:'Gạo FF',
+    handle:'@GaoFF',
+    avt:'',
+    emoji:'🌍',
+    grad:'linear-gradient(135deg,#059669,#f59e0b)',
+    borderColor:'rgba(16,185,129,.5)',
+    glowColor:'rgba(16,185,129,.55)',
+    amount:2000000,
+    depositDate:'18/04/2025',
+    bank:'MB Bank',
+    stk:'0336 7891 2345 67',
+    holder:'Thành Lê ',
+    content:'Thu mua bán Acc uy tín',
+    lastActive:'Hôm qua',
+    status:'ok',
+    statusTxt:'Xác Minh',
+    role:'Chuyên thu mua acc Free Fire',
+    totalOrders:673,
+    successRate:98.8,
+    joinDate:'Tháng 4, 2026',
+    services:['Thu Acc FF','Định Giá FF','Tư Vấn Game'],
+    contacts:[
+      {ico:'<i class="fas fa-comment-dots" style="color:#0068ff"></i>',plat:'ZALO',val:'Liên hệ TunDev Admin',link:'https://zalo.me/0378099749'},
+      {ico:'<i class="fab fa-telegram" style="color:#229ed9"></i>',plat:'TELEGRAM',val:'@GaoFF',link:'https://t.me/TunDevelopedReall'}
+    ]
+  },
+  {
+    id:4,
+    name:' Thành Trung',
+    handle:'@ThanhTrung',
+    avt:'',
+    emoji:'🌍',
+    grad:'linear-gradient(135deg,#7c3aed,#f43f5e)',
+    borderColor:'rgba(139,92,246,.45)',
+    glowColor:'rgba(139,92,246,.55)',
+    amount:1500000,
+    depositDate:'02/05/2025',
+    bank:'Techcombank',
+    stk:'1907 1234 5678 90',
+    holder:'Thành Trung Fox',
+    content:'Thu mua bán Acc uy tín',
+    lastActive:'2 ngày trước',
+    status:'new',
+    statusTxt:'Mới',
+    role:'Hỗ trợ phần mềm & tool',
+    totalOrders:215,
+    successRate:96.3,
+    joinDate:'Tháng 5, 2026',
+    services:['Phần Mềm FF','Tool Auto Farm','Anti-Detect','Key Manager'],
+    contacts:[
+      {ico:'<i class="fas fa-comment-dots" style="color:#0068ff"></i>',plat:'ZALO',val:'Liên hệ TunDev Admin',link:'https://zalo.me/0378099743'},
+      {ico:'<i class="fab fa-telegram" style="color:#229ed9"></i>',plat:'TELEGRAM',val:'@ThanhTrungNe',link:'https://t.me/TunDevelopedReall'}
+    ]
+  },
+];
+
+const avtStore = {};
+function getAvt(id){ return avtStore[id] || ADMINS.find(a=>a.id===id)?.avt || ''; }
+
+// ==================== HÀM CŨ (RENDER ADMIN, MODAL...) ====================
+function closeWelcome(){
+  const el = document.getElementById('welcomeOverlay');
+  el.style.transition = 'opacity .4s'; el.style.opacity = '0';
+  setTimeout(()=>el.style.display='none', 420);
+  tryPlay();
+}
+
+function renderAdmins(data){
+  const list = data || ADMINS;
+  const el = document.getElementById('csList');
+  if(!list.length){
+    el.innerHTML=`<div class="cs-empty"><i class="fas fa-magnifying-glass"></i><br>Không tìm thấy admin nào</div>`;
+    document.getElementById('csCount').textContent='0 admin';
+    return;
+  }
+  const rankIco=[
+    '<i class="fas fa-medal" style="color:#f59e0b;font-size:16px"></i>',
+    '<i class="fas fa-medal" style="color:#94a3b8;font-size:16px"></i>',
+    '<i class="fas fa-medal" style="color:#cd7c3e;font-size:16px"></i>'
+  ];
+  el.innerHTML = list.map((a,i)=>{
+    const badgeClass = a.status==='top'?'csb-top':a.status==='new'?'csb-new':'csb-ok';
+    const badgeIco = a.status==='top'?'<i class="fas fa-crown"></i>':a.status==='new'?'<i class="fas fa-star"></i>':'<i class="fas fa-circle-check"></i>';
+    const avtUrl = getAvt(a.id);
+    const avaHtml = avtUrl
+      ? `<img class="cs-ava" src="${avtUrl}" alt="${a.name}" style="border-color:${a.borderColor}" onerror="this.style.display='none'">`
+      : `<div class="cs-ava-fallback" style="background:${a.grad};border-color:${a.borderColor};font-size:20px">${a.emoji}</div>`;
+    const amtColor = i===0?'var(--amber)':i===1?'var(--cyan)':i===2?'var(--rose)':'var(--emerald)';
+    return `
+    <div class="cs-row" onclick="openAdmModal(${a.id})">
+      <div class="cs-rank">${rankIco[i]||'<span style="font-size:11px">#'+(i+1)+'</span>'}</div>
+      <div class="cs-adm">
+        ${avaHtml}
+        <div><div class="cs-aname">${a.name}</div><div class="cs-ahandle">${a.handle}</div></div>
+      </div>
+      <div class="cs-amount" style="color:${amtColor}">${a.amount.toLocaleString('vi')}đ</div>
+      <div class="cs-date">${a.depositDate}</div>
+      <div><span class="cs-badge ${badgeClass}">${badgeIco} ${a.statusTxt}</span></div>
+    </div>`;
+  }).join('');
+  document.getElementById('csCount').textContent = list.length + ' admin';
+}
+
+function filterAdmins(){
+  const q = document.getElementById('csSearch').value.toLowerCase().trim();
+  if(!q){ renderAdmins(); return; }
+  renderAdmins(ADMINS.filter(a=>a.name.toLowerCase().includes(q)||a.handle.toLowerCase().includes(q)||a.role.toLowerCase().includes(q)));
+}
+
+function renderStats(){
+  const orders = ADMINS.reduce((s,a)=>s+a.totalOrders,0);
+  document.getElementById('statAdmins').textContent = ADMINS.length;
+  document.getElementById('statOrders').textContent = orders.toLocaleString('vi')+'+';
+  const w = document.getElementById('wStats1');
+  if(w) w.textContent = ADMINS.length;
+  document.getElementById('csTopStats').innerHTML = `
+    <div class="cs-stat"><div class="cs-stat-ico c"><i class="fas fa-shield-halved"></i></div><div><div class="cs-stat-val" style="color:var(--cyan)">${ADMINS.length}</div><div class="cs-stat-lbl">Admin ký quỹ</div></div></div>
+    <div class="cs-stat"><div class="cs-stat-ico e"><i class="fas fa-box-archive"></i></div><div><div class="cs-stat-val" style="color:var(--amber)">${orders.toLocaleString('vi')}+</div><div class="cs-stat-lbl">Đơn hoàn tất</div></div></div>
+    <div class="cs-stat"><div class="cs-stat-ico a"><i class="fas fa-headset"></i></div><div><div class="cs-stat-val" style="color:var(--emerald)">24/7</div><div class="cs-stat-lbl">Hỗ trợ</div></div></div>
+    <div class="cs-stat"><div class="cs-stat-ico v"><i class="fas fa-certificate"></i></div><div><div class="cs-stat-val" style="color:var(--violet)">100%</div><div class="cs-stat-lbl">Xác minh</div></div></div>`;
+}
+
+function openAdmModal(id){
+  const a = ADMINS.find(x=>x.id===id);
+  if(!a) return;
+  const badgeClass = a.status==='top'?'csb-top':a.status==='new'?'csb-new':'csb-ok';
+  const avtUrl = getAvt(a.id);
+  const avaHtml = avtUrl
+    ? `<img class="adm-ava-img" src="${avtUrl}" alt="${a.name}" style="border-color:${a.borderColor};box-shadow:0 0 28px ${a.glowColor}" onerror="this.outerHTML=\`<div class='adm-ava-fb' style='background:${a.grad};border-color:${a.borderColor};box-shadow:0 0 28px ${a.glowColor};font-size:32px'>${a.emoji}</div>\`">`
+    : `<div class="adm-ava-fb" style="background:${a.grad};border-color:${a.borderColor};box-shadow:0 0 28px ${a.glowColor};font-size:32px">${a.emoji}</div>`;
+  const verifiedSVG = `<i class="fas fa-crown"></i>`;
+  document.getElementById('admModalInner').innerHTML = `
+    <button class="modal-close" onclick="closeAdmModal()"><i class="fas fa-xmark"></i></button>
+    <div class="adm-mh">
+      <div class="adm-ava-wrap">
+        ${avaHtml}
+        <div class="stamp"><div class="stamp-star"><i class="fas fa-crown" style="font-size:9px"></i></div><div class="stamp-txt">ĐÃ<br>KÝ QUỸ</div></div>
+      </div>
+      <div class="adm-mname" style="background:${a.grad};-webkit-background-clip:text;-webkit-text-fill-color:transparent">${a.name}</div>
+      <div class="adm-mhandle">${a.handle} · ${a.role}</div>
+      <div class="adm-mbadges"><span class="cs-badge ${badgeClass}">${a.statusTxt}</span><span class="cs-badge csb-ok"><i class="fas fa-shield-halved" style="margin-right:4px"></i>Đã Ký Quỹ</span></div>
+      <div style="margin-top:14px;position:relative;z-index:1"><button class="btn btn-gray btn-sm" onclick="openAvtModal(${a.id})" style="width:auto;margin:0 auto;display:inline-flex;font-size:11px;padding:6px 14px"><i class="fas fa-camera" style="margin-right:6px"></i>Đổi ảnh đại diện</button></div>
+    </div>
+    <div class="adm-mb">
+      <div class="dep-banner"><div class="dep-ico"><i class="fas fa-vault"></i></div><div style="flex:1"><div class="dep-lbl">Số tiền ký quỹ</div><div class="dep-val">${a.amount.toLocaleString('vi')} VNĐ</div><div class="dep-sub">Cọc từ ${a.depositDate} · Đang hoạt động</div></div></div>
+      <div class="bank-card">
+        <div class="bank-card-top"><div class="bank-name-badge">${a.bank.toUpperCase()}</div><div class="bank-chip"></div></div>
+        <div class="bank-stk" style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span>${a.stk}</span><button onclick="copySTK('${a.stk.replace(/\s/g,'')}',this)" style="background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25);color:var(--blue);border-radius:7px;padding:5px 12px;font-size:11px;font-family:var(--font-mono);cursor:pointer;font-weight:700;transition:all .2s;flex-shrink:0" onmouseover="this.style.background='rgba(96,165,250,.22)'" onmouseout="this.style.background='rgba(96,165,250,.12)'"><i class="fas fa-copy" style="margin-right:4px"></i>COPY</button></div>
+        <div class="bank-row"><div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Chủ tài khoản</div><div class="bank-holder">${a.holder}</div></div><div style="text-align:right"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Nội dung</div><div style="font-family:var(--font-mono);font-size:11px;color:var(--blue)">${a.content}</div></div></div>
+        <div style="position:absolute;right:10px;top:50%;width:90px;height:90px;border-radius:50%;border:2.5px solid rgba(232,0,26,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:.15;pointer-events:none;transform:translateY(-50%) rotate(-15deg)"><div style="font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:1.5px;text-align:center;line-height:1.4">TUN<br>DEVELOPED</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center"><div style="font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--cyan);margin-bottom:3px">${a.totalOrders.toLocaleString('vi')}</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Đơn hàng</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center"><div style="font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--emerald);margin-bottom:3px">${a.successRate}%</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Thành công</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center"><div style="font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--amber);margin-bottom:3px">24/7</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px">Hoạt động</div></div>
+      </div>
+      <div class="verified-row"><div class="verified-icon-wrap">${verifiedSVG}</div><div style="flex:1"><div class="verified-title">ĐÃ XÁC MINH UY TÍN</div><div class="verified-sub">Được xác thực bởi hệ thống TunDeveloped · ${a.depositDate}</div></div><div class="verified-tag">✓ Hợp lệ</div></div>
+      <div class="info-sec-title">Chi tiết</div>
+      <div style="margin-bottom:22px">
+        <div class="irow"><span class="irow-k">Tham gia</span><span class="irow-v">${a.joinDate}</span></div>
+        <div class="irow"><span class="irow-k">Hoạt động cuối</span><span class="irow-v" style="color:var(--emerald)">${a.lastActive}</span></div>
+        <div class="irow"><span class="irow-k">Vai trò</span><span class="irow-v">${a.role}</span></div>
+        <div class="irow"><span class="irow-k">Ngân hàng</span><span class="irow-v">${a.bank}</span></div>
+        <div class="irow"><span class="irow-k">STK</span><span class="irow-v" style="font-family:var(--font-mono)">${a.stk}</span></div>
+      </div>
+      <div class="info-sec-title">Dịch vụ phụ trách</div>
+      <div class="svc-pills">${a.services.map(s=>`<span class="svc-pill">${s}</span>`).join('')}</div>
+      <div class="info-sec-title">Liên hệ admin này</div>
+      ${a.contacts.map(c=>`<a class="contact-btn" href="${c.link}" target="_blank"><div class="cb-ico">${c.ico}</div><div style="flex:1;text-align:left"><div class="cb-plat">${c.plat}</div><div class="cb-val">${c.val}</div></div><i class="fas fa-arrow-up-right-from-square" style="color:var(--text3);font-size:11px"></i></a>`).join('')}
+    </div>`;
+  document.getElementById('admModal').classList.add('open');
+}
+function closeAdmModal(){ document.getElementById('admModal').classList.remove('open'); }
+
+let _avtEditId = null;
+function openAvtModal(id){
+  _avtEditId = id;
+  document.getElementById('avtAdminId').textContent = '#'+id+' '+ADMINS.find(a=>a.id===id)?.name;
+  document.getElementById('avtUrlInput').value = getAvt(id);
+  document.getElementById('avtPreview').style.display = 'none';
+  document.getElementById('avtModal').classList.add('open');
+}
+function closeAvtModal(){ document.getElementById('avtModal').classList.remove('open'); }
+function previewAvt(){
+  const url = document.getElementById('avtUrlInput').value.trim();
+  if(!url){ showToast('⚠️ Nhập link ảnh trước!'); return; }
+  const img = document.getElementById('avtPreview');
+  img.src = url; img.style.display = 'block';
+  img.onerror = ()=>{ img.style.display='none'; showToast('❌ Link ảnh không hợp lệ!'); };
+}
+function saveAvt(){
+  const url = document.getElementById('avtUrlInput').value.trim();
+  if(!url){ showToast('⚠️ Nhập link ảnh!'); return; }
+  avtStore[_avtEditId] = url;
+  closeAvtModal();
+  renderAdmins();
+  if(_avtEditId === ADMINS[0]?.id){
+    const avaEl = document.getElementById('adminMainAva');
+    if(avaEl) avaEl.innerHTML = `<img src="${url}" alt="" onerror="this.outerHTML='<span style=\\'font-size:28px\\'>${ADMINS[0].emoji||'👑'}</span>'">`;
+  }
+  if(document.getElementById('admModal').classList.contains('open')) openAdmModal(_avtEditId);
+  showToast('✅ Đã cập nhật ảnh đại diện!');
+}
+
+function openReport(){ document.getElementById('reportModal').classList.add('open'); }
+function closeReport(){ document.getElementById('reportModal').classList.remove('open'); }
+function submitReport(){
+  const name = document.getElementById('rp-name').value.trim();
+  const contact = document.getElementById('rp-contact').value.trim();
+  if(!name){ showToast('⚠️ Vui lòng nhập tên kẻ lừa đảo!'); return; }
+  if(!contact){ showToast('⚠️ Vui lòng nhập thông tin liên hệ của bạn!'); return; }
+  sendTelegram(`🚨 BÁO CÁO SCAM\n👤 Tên: ${name}\n💸 Số tiền: ${document.getElementById('rp-amount').value||'không rõ'}đ\n📱 Nền tảng: ${document.getElementById('rp-platform').value}\n📝 Mô tả: ${document.getElementById('rp-desc').value}\n🔗 Bằng chứng: ${document.getElementById('rp-proof').value}\n📞 Người báo cáo: ${contact}`);
+  closeReport();
+  showToast('✅ Báo cáo đã gửi! Chúng tôi xử lý trong 24h.');
+  ['rp-name','rp-amount','rp-platform','rp-desc','rp-proof','rp-contact'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+}
+
+function showPanel(id){
+  document.getElementById('home-view').style.display = 'none';
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.svc-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll(`[onclick="showPanel('${id}')"]`).forEach(b=>b.classList.add('active'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showHome(){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.svc-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('home-view').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleFaq(i){
+  document.getElementById('fqa-'+i).classList.toggle('open');
+  document.getElementById('fqq-'+i).classList.toggle('open');
+}
+
+function submitCollect(){
+  const c = document.getElementById('col-contact').value.trim();
+  if(!c){ showToast('⚠️ Vui lòng điền thông tin liên hệ!'); return; }
+  sendTelegram(`📥 YÊU CẦU BÁN ACC FF\nServer: ${document.getElementById('col-server').value}\nRank: ${document.getElementById('col-rank').value}\nNội dung: ${document.getElementById('col-desc').value}\nẢnh: ${document.getElementById('col-img').value}\nGiá mong muốn: ${document.getElementById('col-price').value||'Nhờ Admin định giá'}\nLiên hệ: ${c}`);
+  showToast('✅ Đã gửi! Admin liên hệ định giá trong 30 phút.');
+  ['col-server','col-rank','col-desc','col-img','col-price','col-contact'].forEach(id=>document.getElementById(id).value='');
+}
+
+function copySTK(stk, btn){
+  navigator.clipboard.writeText(stk).catch(()=>{
+    const e=document.createElement('textarea');e.value=stk;document.body.appendChild(e);e.select();document.execCommand('copy');document.body.removeChild(e);
+  });
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check" style="margin-right:4px"></i>ĐÃ COPY';
+  btn.style.color = 'var(--emerald)';
+  btn.style.borderColor = 'rgba(16,185,129,.4)';
+  btn.style.background = 'rgba(16,185,129,.12)';
+  setTimeout(()=>{ btn.innerHTML=orig; btn.style.color=''; btn.style.borderColor=''; btn.style.background=''; }, 2000);
+  showToast('✅ Đã copy STK: '+stk);
+}
+
+async function sendTelegram(text){
+  try{
+    const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:CHAT_ID,text}),
+      signal:AbortSignal.timeout(8000)
+    });
+    const d = await r.json();
+    if(d.ok) return true;
+  }catch(e){}
+  return false;
+}
+
+function showToast(msg,dur=3800){
+  const t = document.getElementById('toast');
+  t.innerHTML = msg; t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.style.display='none', dur);
+}
+
+// ==================== DỮ LIỆU SẢN PHẨM CŨ ====================
+const SW_DATA = [
+  {id:1,ico:'fa-gauge-high',img:'https://files.catbox.moe/rt07ln.jpeg',name:'OfSet Config Premium',desc:'Config Hỗ Trợ Headshot Free Fire🍀',tags:['Free Fire','Free Fire Max','iOS & Android'],price:200000,badge:'prod-badge-rose',badgeTxt:'BEST SELLER'},
+  {id:2,ico:'fa-robot',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Proxy MaxLock',desc:' Đồ chơi Free Fire của các IDOL TIK TOK🍀',tags:['Free Fire','Free Fire Max','Safe ON'],price:200000,badge:'prod-badge-violet',badgeTxt:'VIP PROXY'},
+  {id:3,ico:'fa-chart-line',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Tool Quản Lý Page FB',desc:'Lên lịch bài đăng, thống kê tương tác, quản lý nhiều page.',tags:['Facebook','Page','Marketing'],price:700000,badge:'prod-badge-cyan',badgeTxt:'MARKETING'},
+  {id:4,ico:'fa-user-shield',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Anti-Detect Browser',desc:'Browser chống phát hiện, fingerprint riêng biệt mỗi profile.',tags:['Browser','Anti-detect','Multi-acc'],price:1500000,badge:'prod-badge-amber',badgeTxt:'SECURITY'},
+  {id:5,ico:'fa-envelope-open-text',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Tool Spam Zalo',desc:'Gửi tin nhắn hàng loạt Zalo, hỗ trợ hẹn giờ.',tags:['Zalo','Marketing'],price:600000,badge:'prod-badge-green',badgeTxt:'MSG TOOL'},
+  {id:6,ico:'fa-eye-slash',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Full Maketting Facebook',desc:'Dạy kèm 1:1 + Full Khoá Chuẩn CEO.',tags:['Dạy kèm 1:1','Full khoá 6Th','Call Zoom'],price:1200000,badge:'prod-badge-rose',badgeTxt:'STEALTH'},
+];
+
+const FB_SVCS = [
+  {id:'fb1',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-rose',badgeTxt:'HOT NHẤT',ico:'fa-lock-open',title:'Mở Khoá Tài Khoản',metas:['Tỷ lệ 85%+','1–3 ngày'],desc:'Tài khoản bị vô hiệu hoá, disabled, checkpoint — xử lý chuyên nghiệp. Hoàn tiền nếu thất bại.',price:150000,priceLabel:'Từ 150.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-unlock',borderColor:'rgba(255,77,109,.22)'},
+  {id:'fb2',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-cyan',badgeTxt:'PHỔ BIẾN',ico:'fa-file-signature',title:'Kháng Cáo & Appeal',metas:['Đúng quy trình','3–14 ngày'],desc:'Fanpage bị gỡ, vi phạm bản quyền — kháng cáo đúng quy trình Facebook.',price:200000,priceLabel:'Từ 200.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-file-signature',borderColor:'rgba(96,165,250,.22)'},
+  {id:'fb3',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-amber',badgeTxt:'NHANH 24H',ico:'fa-traffic-light',title:'Vượt Checkpoint',metas:['Hỗ trợ 24h','OTP + Ảnh'],desc:'Bị checkpoint ảnh bạn bè, OTP không nhận — vượt trong 24h.',price:100000,priceLabel:'Từ 100.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-traffic-light',borderColor:'rgba(251,191,36,.18)'},
+  {id:'fb4',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-green',badgeTxt:'TĂNG TRƯỞNG',ico:'fa-arrow-trend-up',title:'Tăng Follower / Like',metas:['Tương tác thực','BH 30 ngày'],desc:'Tăng follower trang, like bài viết — an toàn không bay nick.',price:50000,priceLabel:'Từ 50.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-users',borderColor:'rgba(16,185,129,.18)'},
+  {id:'fb5',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-violet',badgeTxt:'BẢO MẬT',ico:'fa-shield-halved',title:'Bảo Mật 2FA',metas:['Xác thực 2 lớp','Miễn phí HD'],desc:'Cài xác thực 2 yếu tố, Trusted Contacts, khoá bảo mật nâng cao.',price:0,priceLabel:'Miễn phí',btn:'btn-outline',btnTxt:'XEM HƯỚNG DẪN',btnIco:'fa-shield-halved',isGuide:true,borderColor:'rgba(167,139,250,.18)'},
+  {id:'fb6',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-rose',badgeTxt:'KHẨN CẤP',ico:'fa-triangle-exclamation',title:'Khôi Phục Bị Hack',metas:['Ưu tiên 6h','Khẩn cấp'],desc:'Tài khoản bị đổi email/SĐT, hack chiếm quyền — xử lý khẩn cấp trong 6h.',price:300000,priceLabel:'Từ 300.000đ',btn:'btn-rose',btnTxt:'ĐẶT KHẨN CẤP',btnIco:'fa-exclamation-circle',borderColor:'rgba(255,77,109,.2)'},
+];
+
+// ==================== GIỎ HÀNG & CHECKOUT MỚI ====================
+let cart = [];
+let payNote = '', payPhone = '', payTotal = 0;
+
+function getCartTotal(){ return cart.reduce((s,i)=>s+i.price,0); }
+function updateCartBadge(){
+  const b=document.getElementById('cartBadge');
+  if(cart.length){b.textContent=cart.length;b.style.display='flex';}
+  else b.style.display='none';
+}
+
+function addToCart(id){
+  const all=[...SW_DATA,...FB_SVCS];
+  const item=all.find(p=>p.id==id);
+  if(!item) return;
+  if(cart.find(c=>c.id==id)){showToast('⚠️ Sản phẩm đã có trong giỏ!');return;}
+  cart.push(item);
+  updateCartBadge();
+  showToast(`✅ Đã thêm: ${item.name||item.title}`);
+  renderCart();
+}
+
+function removeFromCart(id){
+  cart=cart.filter(c=>c.id!=id);
+  updateCartBadge();renderCart();
+  showToast('🗑️ Đã xóa khỏi giỏ');
+}
+
+function clearCart(){cart=[];updateCartBadge();renderCart();}
+
+function buyNow(id){
+  const all=[...SW_DATA,...FB_SVCS];
+  const item=all.find(p=>p.id==id);
+  if(!item) return;
+  if(!cart.find(c=>c.id==id)) cart.push(item);
+  updateCartBadge();renderCart();openCheckout();
+}
+
+function renderCart(){
+  const el=document.getElementById('cartItems');
+  const total=document.getElementById('cartTotalRow');
+  if(!cart.length){
+    el.innerHTML=`<div class="cart-empty"><i class="fas fa-cart-shopping"></i>Giỏ hàng trống<br><span style="font-size:13px;color:var(--text3)">Hãy thêm sản phẩm vào giỏ nhé!</span></div>`;
+    total.style.display='none';return;
+  }
+  el.innerHTML=cart.map(i=>`
+    <div class="cart-item">
+      <img class="cart-item-img" src="${i.img||''}" alt="${i.name||i.title}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2256%22><rect width=%2256%22 height=%2256%22 fill=%22%23e0f2fe%22/></svg>'">
+      <div class="cart-item-body">
+        <div class="cart-item-name">${i.name||i.title}</div>
+        <div class="cart-item-price">${i.price.toLocaleString('vi')}đ</div>
+      </div>
+      <button class="btn btn-gray btn-sm btn-icon" onclick="removeFromCart('${i.id}')"><i class="fas fa-trash-can" style="color:var(--rose)"></i></button>
+    </div>`).join('');
+  document.getElementById('cartTotalVal').textContent=getCartTotal().toLocaleString('vi')+'đ';
+  total.style.display='block';
+}
+
+// ==================== RENDER SẢN PHẨM MỚI ====================
+function renderSW(){
+  document.getElementById('swGrid').innerHTML = SW_DATA.map(p=>`
+    <div class="prod-card">
+      <div class="prod-thumb">
+        <img src="${p.img}" alt="${p.name}" onerror="this.style.background='var(--bg2)'">
+        <div class="prod-thumb-overlay"></div>
+        <span class="prod-badge ${p.badge}"><i class="fas fa-star"></i> ${p.badgeTxt}</span>
+      </div>
+      <div class="prod-body">
+        <div class="prod-subject">${p.tags[0]} · ${p.tags[1]||''}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-desc">${p.desc}</div>
+        <div class="prod-price-row">
+          <div class="prod-price">${p.price.toLocaleString('vi')}đ</div>
+          <div class="prod-actions">
+            <button class="btn btn-gray btn-sm btn-icon" onclick="addToCart('${p.id}')"><i class="fas fa-cart-plus"></i></button>
+            <button class="btn btn-violet btn-sm" onclick="buyNow('${p.id}')"><i class="fas fa-bolt"></i> Mua</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderFB(){
+  document.getElementById('fbGrid').innerHTML = FB_SVCS.map(p=>`
+    <div class="prod-card">
+      <div class="prod-thumb">
+        <img src="${p.img}" alt="${p.title}" onerror="this.style.background='var(--bg2)'">
+        <div class="prod-thumb-overlay"></div>
+        <span class="prod-badge ${p.badge}"><i class="fas fa-star"></i> ${p.badgeTxt}</span>
+      </div>
+      <div class="prod-body">
+        <div class="prod-subject">${p.metas.join(' · ')}</div>
+        <div class="prod-name">${p.title}</div>
+        <div class="prod-desc">${p.desc}</div>
+        <div class="prod-price-row">
+          <div class="prod-price">${p.priceLabel||p.price.toLocaleString('vi')+'đ'}</div>
+          <div class="prod-actions">
+            ${p.isGuide
+              ?`<button class="btn btn-outline btn-sm" onclick="chatAsk('2fa')"><i class="fas ${p.btnIco}"></i> Xem</button>`
+              :`<button class="btn btn-gray btn-sm btn-icon" onclick="addToCart('${p.id}')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn btn-cyan btn-sm" onclick="buyNow('${p.id}')"><i class="fas fa-bolt"></i> Mua</button>`
+            }
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ==================== CHECKOUT FLOW ====================
+function openCheckout(){
+  if(!cart.length){showToast('⚠️ Giỏ hàng trống! Hãy thêm sản phẩm trước.');return;}
+  const total=getCartTotal();
+  document.getElementById('co-summary').innerHTML=cart.map(i=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">${i.name||i.title}</span><strong style="color:var(--cyan)">${i.price.toLocaleString('vi')}đ</strong></div>`).join('');
+  document.getElementById('co-total-lbl').textContent=total.toLocaleString('vi')+'đ';
+  document.getElementById('co-phone').value='';
+  document.getElementById('co-name').value='';
+  document.getElementById('co-note').value='';
+  document.getElementById('checkoutStep1').style.display='block';
+  document.getElementById('checkoutStep2').style.display='none';
+  document.getElementById('checkoutStep3').style.display='none';
+  document.getElementById('checkoutModal').classList.add('open');
+}
+
+function generateQR(){
+  const phone=document.getElementById('co-phone').value.trim().replace(/\D/g,'');
+  const name=document.getElementById('co-name').value.trim();
+  if(!phone||phone.length<9){showToast('⚠️ Vui lòng nhập số Zalo hợp lệ!');return;}
+  if(!name){showToast('⚠️ Vui lòng nhập tên của bạn!');return;}
+  payPhone=phone; payTotal=getCartTotal(); payNote='TUNDEVELOPED '+Math.floor(100000+Math.random()*900000);
+  const note=document.getElementById('co-note').value||'';
+  const qrUrl=`https://img.vietqr.io/image/TCB-19076281202011-compact2.png?amount=${payTotal}&addInfo=${encodeURIComponent(payNote)}&accountName=${encodeURIComponent('TRAN DAO THANH DAT')}`;
+  document.getElementById('qrImg').src=qrUrl;
+  document.getElementById('qrAmount').textContent=payTotal.toLocaleString('vi')+'đ';
+  document.getElementById('qrNote').textContent=payNote;
+  document.getElementById('checkoutStep1').style.display='none';
+  document.getElementById('checkoutStep2').style.display='block';
+  const items=cart.map(i=>`  • ${i.name||i.title} — ${i.price.toLocaleString('vi')}đ`).join('\n');
+  sendTelegram(`🛒 ĐƠN HÀNG MỚI\n👤 Tên: ${name}\n📱 Zalo: ${phone}\n📋 Sản phẩm:\n${items}\n💰 Tổng: ${payTotal.toLocaleString('vi')}đ\n🔖 Nội dung CK: ${payNote}\n📝 Ghi chú: ${note||'—'}\n⏳ Đang chờ thanh toán...`);
+}
+
+async function confirmPaid(){
+  await sendTelegram(`✅ ĐÃ THANH TOÁN\n📱 Zalo: ${payPhone}\n💰 Số tiền: ${payTotal.toLocaleString('vi')}đ\n🔖 Nội dung: ${payNote}\n👉 HÃY GỬI SẢN PHẨM CHO ZALO ${payPhone} NGAY!`);
+  document.getElementById('checkoutStep2').style.display='none';
+  document.getElementById('checkoutStep3').style.display='block';
+  document.getElementById('paidPhone').textContent=payPhone;
+  showToast('🎉 Cảm ơn! Admin sẽ liên hệ trong 15 phút!',5000);
+}
+
+function copyQRNote(){
+  navigator.clipboard.writeText(payNote).catch(()=>{const e=document.createElement('textarea');e.value=payNote;document.body.appendChild(e);e.select();document.execCommand('copy');document.body.removeChild(e);});
+  showToast('✅ Đã sao chép: '+payNote);
+}
+
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+// ==================== CHAT & FAQ CŨ ====================
+const KB = {
+  'mở khoá':()=>`<strong style="color:var(--cyan)">Mở Khoá Tài Khoản Facebook</strong><br><br>1. Vào <a href="https://www.facebook.com/login/identify" target="_blank" style="color:var(--cyan)">facebook.com/login/identify</a><br>2. Nhập email / SĐT đăng ký<br>3. Nhận mã → đặt mật khẩu mới<br>4. Vi phạm → kháng cáo kèm CMND`,
+  'bị hack':()=>`<strong style="color:var(--rose)">Bị Hack — Xử Lý Ngay!</strong><br><br>1. Vào <a href="https://www.facebook.com/hacked" target="_blank" style="color:var(--cyan)">facebook.com/hacked</a><br>2. Đổi mật khẩu ngay nếu còn vào được<br>3. Đăng xuất hết thiết bị lạ<br>4. Bật 2FA ngay lập tức`,
+  'vô hiệu hoá':()=>`<strong style="color:var(--amber)">Tài Khoản Vô Hiệu Hoá</strong><br><br>1. Vào <a href="https://www.facebook.com/help/contact/183000765122339" target="_blank" style="color:var(--cyan)">Form kháng cáo</a><br>2. Nhập email/SĐT đăng ký<br>3. Upload CMND/CCCD (2 mặt, rõ nét)<br>4. Chờ phản hồi 3–30 ngày`,
+  'mật khẩu':()=>`<strong style="color:var(--cyan)">Quên Mật Khẩu Facebook</strong><br><br>1. Vào <a href="https://www.facebook.com/login/identify" target="_blank" style="color:var(--cyan)">facebook.com/login/identify</a><br>2. Nhập email / SĐT<br>3. Nhận mã → đặt mật khẩu mới`,
+  'checkpoint':()=>`<strong style="color:var(--cyan)">Bị Checkpoint Facebook</strong><br><br>1. Nhận OTP qua SMS hoặc email<br>2. Nhận diện bạn bè đúng ảnh<br>3. Nếu yêu cầu CMND: chụp rõ<br>4. Dùng Wi-Fi tại nhà + thiết bị quen`,
+  'kháng cáo':()=>`<strong style="color:var(--cyan)">Kháng Cáo Facebook</strong><br><br>• <a href="https://www.facebook.com/help/contact/183000765122339" target="_blank" style="color:var(--cyan)">Tài khoản bị vô hiệu</a><br>• <a href="https://www.facebook.com/help/contact/208049282641027" target="_blank" style="color:var(--cyan)">Fanpage bị gỡ</a><br><br>Kèm CMND/CCCD rõ nét`,
+  '2fa':()=>`<strong style="color:var(--emerald)">Bật Xác Thực 2 Yếu Tố</strong><br><br>1. Cài đặt → Bảo mật và đăng nhập<br>2. Xác thực hai yếu tố → Chỉnh sửa<br>3. Chọn App xác thực (Google Auth)<br>4. Quét QR → nhập mã<br>5. Lưu Recovery Codes cẩn thận`,
+};
+const KM = [
+  {k:['mở khoá','mở khóa','unlock','lấy lại'],t:'mở khoá'},
+  {k:['hack','bị hack','chiếm'],t:'bị hack'},
+  {k:['vô hiệu','disabled','bị xóa'],t:'vô hiệu hoá'},
+  {k:['mật khẩu','password','quên pass'],t:'mật khẩu'},
+  {k:['checkpoint','check point'],t:'checkpoint'},
+  {k:['kháng cáo','appeal'],t:'kháng cáo'},
+  {k:['2fa','xác thực 2','two factor'],t:'2fa'},
+];
+function matchTopic(t){ const l=t.toLowerCase(); for(const e of KM) if(e.k.some(k=>l.includes(k))) return e.t; return null; }
+const cBtns=()=>`<div class="chips"><button class="chip" onclick="chatAsk('mở khoá')">Mở khoá</button><button class="chip" onclick="chatAsk('bị hack')">Bị hack</button><button class="chip" onclick="chatAsk('vô hiệu hoá')">Disabled</button><button class="chip" onclick="chatAsk('mật khẩu')">Quên pass</button><button class="chip" onclick="chatAsk('checkpoint')">Checkpoint</button><button class="chip" onclick="chatAsk('2fa')">2FA</button></div>`;
+function addMsg(role,html){
+  const msgs=document.getElementById('chatMessages');
+  const row=document.createElement('div'); row.className='mrow '+role;
+  const av=document.createElement('div'); av.className='chat-av'; av.style.cssText='width:28px;height:28px;font-size:11px;flex-shrink:0'; av.innerHTML=role==='bot'?'<i class="fas fa-headset"></i>':'<i class="fas fa-user"></i>';
+  const bub=document.createElement('div'); bub.className='mbub'; bub.innerHTML=html;
+  const w=document.createElement('div'); w.style.maxWidth='100%'; w.appendChild(bub);
+  if(role==='bot'){row.appendChild(av);row.appendChild(w);}else{row.appendChild(w);row.appendChild(av);}
+  msgs.appendChild(row); msgs.scrollTop=msgs.scrollHeight;
+}
+function addTyping(){
+  const msgs=document.getElementById('chatMessages');
+  const row=document.createElement('div'); row.className='mrow bot'; row.id='tRow';
+  const av=document.createElement('div'); av.className='chat-av'; av.style.cssText='width:28px;height:28px;font-size:11px;flex-shrink:0'; av.innerHTML='<i class="fas fa-headset"></i>';
+  const bub=document.createElement('div'); bub.className='mbub'; bub.innerHTML='<div class="dots"><span></span><span></span><span></span></div>';
+  row.appendChild(av); row.appendChild(bub); msgs.appendChild(row); msgs.scrollTop=msgs.scrollHeight;
+}
+function removeTyping(){ const el=document.getElementById('tRow'); if(el) el.remove(); }
+function botReply(topic){
+  addTyping();
+  setTimeout(()=>{
+    removeTyping();
+    const fn=topic?KB[topic]:null;
+    addMsg('bot',(fn?fn():`Cảm ơn! Admin hỗ trợ qua <strong style="color:var(--cyan)">Zalo: 0378099746</strong>`)+cBtns());
+  }, 600+Math.random()*400);
+}
+function chatAsk(text){ addMsg('user',text); botReply(matchTopic(text)); }
+function sendChat(){ const inp=document.getElementById('chatInput'); const t=inp.value.trim(); if(!t)return; inp.value=''; addMsg('user',t); botReply(matchTopic(t)); }
+function initChat(){ addTyping(); setTimeout(()=>{ removeTyping(); addMsg('bot',`<strong style="color:var(--cyan)">Chào! Tôi có thể giúp gì về Facebook?</strong>${cBtns()}`); },900); }
+
+const FAQ = [
+  {q:'Tài khoản bị vô hiệu hoá có lấy lại được không?',a:'Có thể nếu vi phạm không quá nghiêm trọng. Kháng cáo kèm CMND, xét duyệt 3–30 ngày.'},
+  {q:'Mất email và SĐT có khôi phục không?',a:'Có qua Trusted Contacts hoặc xác minh CMND qua form chính thức của Facebook.'},
+  {q:'Bị checkpoint ảnh bạn bè không nhận ra thì sao?',a:'Chọn "Tôi không nhận ra". Facebook sẽ hỏi câu khác hoặc chuyển sang OTP/CMND.'},
+  {q:'Bao lâu nhận phản hồi sau khi kháng cáo?',a:'3–14 ngày làm việc. Phức tạp 30 ngày. Phản hồi qua email đăng ký.'},
+  {q:'Phần mềm mua có bị phát hiện không?',a:'Tool được test kỹ, sử dụng đúng cách theo hướng dẫn sẽ an toàn. Admin hỗ trợ cài đặt miễn phí.'},
+  {q:'Ký quỹ admin đảm bảo gì?',a:'Toàn bộ tiền cọc TunDeveloped giữ. Nếu admin gian lận, TunDeveloped bồi thường từ quỹ tương ứng của admin đó.'},
+];
+
+function switchGuide(id, btn){
+  document.querySelectorAll('.guide-section').forEach(s=>s.style.display='none');
+  document.querySelectorAll('.guide-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).style.display='block';
+  btn.classList.add('active');
+}
+const TROUBLE_FAQ = [
+  {q:'Key báo "Invalid" / "Đã hết hạn"',a:'Kiểm tra đã nhập đúng key chưa (không thừa dấu cách). Nếu đúng mà vẫn lỗi, liên hệ admin để được đổi key mới miễn phí.'},
+  {q:'Tool không mở được trên iPhone / iOS',a:'Vào Cài đặt → Cài đặt chung → Quản lý VPN và thiết bị → tìm tên app → bấm "Tin tưởng". Nếu không thấy mục này, thử cài lại app.'},
+  {q:'Đã chuyển khoản nhưng chưa nhận được key',a:'Bấm nút "Đã thanh toán" trong màn hình QR để hệ thống thông báo admin. Nếu quá 15 phút vẫn chưa có phản hồi, liên hệ admin qua Zalo kèm ảnh chụp giao dịch.'},
+  {q:'Tool chạy chậm / lag / bị crash',a:'Thử tắt hoàn toàn app và mở lại. Kiểm tra kết nối mạng. Nếu vẫn lỗi, gửi video/ảnh mô tả lỗi cho admin để được hỗ trợ kỹ thuật.'},
+  {q:'Key dùng được bao lâu? Có hết hạn không?',a:'Tool trên hệ thống TunDev là mua 1 lần dùng mãi — không hết hạn. Key chỉ bị thu hồi nếu vi phạm điều khoản (dùng trên nhiều thiết bị).'},
+  {q:'Muốn đổi thiết bị, key có dùng lại được không?',a:'Key gắn với 1 thiết bị khi kích hoạt lần đầu. Muốn chuyển thiết bị, liên hệ admin để reset — hỗ trợ 1 lần miễn phí.'},
+];
+function toggleTFaq(i){
+  document.getElementById('tfqa-'+i).classList.toggle('open');
+  document.getElementById('tfqq-'+i).classList.toggle('open');
+}
+
+// ==================== INIT ====================
+window.onload = ()=>{
+  renderStats(); renderAdmins(); renderSW(); renderFB(); renderCart(); updateCartBadge(); initChat();
+  const a0 = ADMINS[0];
+  if(a0){
+    const avaEl = document.getElementById('adminMainAva');
+    const avtUrl = getAvt(a0.id) || a0.avt;
+    if(avtUrl){
+      avaEl.innerHTML = `<img src="${avtUrl}" alt="${a0.name}" onerror="this.outerHTML='<i class=\\'fas fa-crown\\'></i>'">`;
+    } else {
+      avaEl.innerHTML = `<span style="font-size:28px">${a0.emoji||'👑'}</span>`;
+    }
+    const nameEl = document.getElementById('adminMainName');
+    if(nameEl) nameEl.textContent = a0.name;
+    const roleEl = document.getElementById('adminMainRole');
+    if(roleEl) roleEl.textContent = '• ' + a0.role + ' •';
+  }
+  document.getElementById('faqList').innerHTML = FAQ.map((f,i)=>`
+    <div class="faq-item">
+      <div class="faq-q" id="fqq-${i}" onclick="toggleFaq(${i})">${f.q}<span class="faq-arr">▾</span></div>
+      <div class="faq-a" id="fqa-${i}">${f.a}</div>
+    </div>`).join('');
+  const tfl = document.getElementById('troubleFaqList');
+  if(tfl) tfl.innerHTML = TROUBLE_FAQ.map((f,i)=>`
+    <div class="faq-item">
+      <div class="faq-q" id="tfqq-${i}" onclick="toggleTFaq(${i})">${f.q}<span class="faq-arr">▾</span></div>
+      <div class="faq-a" id="tfqa-${i}">${f.a}</div>
+    </div>`).join('');
+  ['admModal','reportModal','avtModal','checkoutModal'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('click',e=>{
+      if(e.target===el){
+        if(id==='checkoutModal') closeModal('checkoutModal');
+        else if(id==='admModal') closeAdmModal();
+        else if(id==='reportModal') closeReport();
+        else if(id==='avtModal') closeAvtModal();
+      }
+    });
+  });
+};
+</script>
+</body>
+</html>
