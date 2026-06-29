@@ -27,14 +27,35 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
+/* ====== PREMIUM VISUAL LAYER ====== */
 .bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0}
 .bg-layer::before{content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 50% at 10% -5%,rgba(0,229,255,.06) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 90% 105%,rgba(167,139,250,.08) 0%,transparent 60%)}
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -5%,rgba(0,229,255,.09) 0%,transparent 58%),
+    radial-gradient(ellipse 62% 55% at 92% 110%,rgba(167,139,250,.12) 0%,transparent 58%),
+    radial-gradient(ellipse 45% 35% at 50% 10%,rgba(251,191,36,.06) 0%,transparent 60%)}
+.bg-layer::after{content:'';position:absolute;inset:-2px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 38%,rgba(0,0,0,.45));
+  opacity:.6}
+
 .bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(0,229,255,.022) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,229,255,.022) 1px,transparent 1px);
-  background-size:52px 52px}
+  background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(circle at 50% 0%,rgba(0,0,0,1) 0%,rgba(0,0,0,.6) 55%,transparent 75%);
+  opacity:.85}
+
+/* Soft noise */
+.bg-noise{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22 opacity=%22.25%22/%3E%3C/svg%3E');
+  opacity:.08;mix-blend-mode:overlay}
+
+/* Premium depth */
+*{scrollbar-width:thin;scrollbar-color:rgba(35,50,86,.9) transparent}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-thumb{background:rgba(35,50,86,.9);border-radius:10px}
+::-webkit-scrollbar-track{background:transparent}
+
 
 .welcome-overlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:12px;
   background:rgba(4,6,18,.95);backdrop-filter:blur(18px);overflow-y:auto}
@@ -79,10 +100,14 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 .wlc-note{font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-top:8px;position:relative;z-index:1}
 
 .topbar{position:sticky;top:0;z-index:200;height:62px;
-  background:rgba(7,9,26,.94);backdrop-filter:blur(32px) saturate(1.5);
-  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(10,14,35,.78),rgba(7,9,26,.92));
+  backdrop-filter:blur(34px) saturate(1.6);
+  border-bottom:1px solid rgba(28,42,71,.75);
   display:flex;align-items:center;justify-content:space-between;padding:0 24px;
-  box-shadow:0 1px 0 rgba(0,229,255,.06)}
+  box-shadow:0 10px 30px rgba(0,0,0,.25),0 1px 0 rgba(0,229,255,.08);
+  position:sticky;
+}
+
 .tlogo{font-family:var(--font-head);font-weight:800;font-size:18px;display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none;color:inherit}
 .tlogo-ico{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-size:15px;color:#000;font-weight:900;box-shadow:0 0 20px var(--cyan-glow)}
 .tlogo-txt span{color:var(--cyan)}
@@ -490,8 +515,10 @@ select.inp{cursor:pointer}
 <body>
 <div class="bg-layer"></div>
 <div class="bg-grid"></div>
+<div class="bg-noise"></div>
 
 <audio id="bgAudio" loop preload="auto" playsinline></audio>
+
 <script>
   const audio=document.getElementById('bgAudio');
   audio.volume=0.6;
@@ -1239,20 +1266,21 @@ function showToast(msg,dur=3800){
   t._t = setTimeout(()=>t.style.display='none', dur);
 }
 
+
 // ==================== DỮ LIỆU SẢN PHẨM CŨ ====================
 const SW_DATA = [
-  {id:1,ico:'fa-gauge-high',img:'https://files.catbox.moe/rt07ln.jpeg',name:'OfSet Config Premium',desc:'Config Hỗ Trợ Headshot Free Fire🍀',tags:['Free Fire','Free Fire Max','iOS & Android'],price:200000,badge:'prod-badge-rose',badgeTxt:'BEST SELLER'},
-  {id:2,ico:'fa-robot',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Proxy MaxLock',desc:' Đồ chơi Free Fire của các IDOL TIK TOK🍀',tags:['Free Fire','Free Fire Max','Safe ON'],price:200000,badge:'prod-badge-violet',badgeTxt:'VIP PROXY'},
-  {id:3,ico:'fa-chart-line',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Tool Quản Lý Page FB',desc:'Lên lịch bài đăng, thống kê tương tác, quản lý nhiều page.',tags:['Facebook','Page','Marketing'],price:700000,badge:'prod-badge-cyan',badgeTxt:'MARKETING'},
-  {id:4,ico:'fa-user-shield',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Anti-Detect Browser',desc:'Browser chống phát hiện, fingerprint riêng biệt mỗi profile.',tags:['Browser','Anti-detect','Multi-acc'],price:1500000,badge:'prod-badge-amber',badgeTxt:'SECURITY'},
+  {id:1,ico:'fa-gauge-high',img:'https://files.catbox.moe/rt07ln.jpeg',name:'OFSET CONFIG PREMIUM',desc:'CONFIG HỖ TRỢ KÉO TÂM FREE FIRE OB54🍀',tags:['Free Fire','Free Fire Max','iOS & Android'],price:200000,badge:'prod-badge-rose',badgeTxt:'BEST SELLER'},
+  {id:2,ico:'fa-robot',img:'https://files.catbox.moe/rt07ln.jpeg',name:'PROXY MAXLOCK',desc:'CONFIG HỖ TRỢ KÉO TÂM FREE FIRE OB54🍀🍀',tags:['Free Fire','Free Fire Max','Safe ON'],price:200000,badge:'prod-badge-violet',badgeTxt:'VIP PROXY'},
+  {id:3,ico:'fa-chart-line',img:'https://files.catbox.moe/rt07ln.jpeg',name:'IMAZING HEAD - HEAD',desc:'TỆP TIN IMAZING CÀI QUA PC - CHUYÊN CÁC LOẠI AIMHEAD , AIMBODY, AIMNECK...',tags:['Facebook','Page','Marketing'],price:150000,badge:'prod-badge-cyan',badgeTxt:'BÁN CHẠY'},
+  {id:4,ico:'fa-user-shield',img:'https://files.catbox.moe/rt07ln.jpeg',name:'DATA NHẸ TÂM ANDROID',desc:'TẬP TRUNG FILES TỐI ƯU HỆ THỐNG GAME VÀ THIẾT BỊ GIÚP KÉO TÂM MƯỢT MÀ HƠN',tags:['Browser','Anti-detect','Multi-acc'],price:150000,badge:'prod-badge-amber',badgeTxt:'BÁN CHẠY'},
   {id:5,ico:'fa-envelope-open-text',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Tool Spam Zalo',desc:'Gửi tin nhắn hàng loạt Zalo, hỗ trợ hẹn giờ.',tags:['Zalo','Marketing'],price:600000,badge:'prod-badge-green',badgeTxt:'MSG TOOL'},
   {id:6,ico:'fa-eye-slash',img:'https://files.catbox.moe/rt07ln.jpeg',name:'Full Maketting Facebook',desc:'Dạy kèm 1:1 + Full Khoá Chuẩn CEO.',tags:['Dạy kèm 1:1','Full khoá 6Th','Call Zoom'],price:1200000,badge:'prod-badge-rose',badgeTxt:'STEALTH'},
 ];
 
 const FB_SVCS = [
-  {id:'fb1',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-rose',badgeTxt:'HOT NHẤT',ico:'fa-lock-open',title:'Mở Khoá Tài Khoản',metas:['Tỷ lệ 85%+','1–3 ngày'],desc:'Tài khoản bị vô hiệu hoá, disabled, checkpoint — xử lý chuyên nghiệp. Hoàn tiền nếu thất bại.',price:150000,priceLabel:'Từ 150.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-unlock',borderColor:'rgba(255,77,109,.22)'},
+  {id:'fb1',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-rose',badgeTxt:'HOT NHẤT',ico:'fa-lock-open',title:'Mở Khoá Tài Khoản',metas:['Tỷ lệ 85%+','1–3 ngày'],desc:'Tài khoản bị vô hiệu hoá, disabled, checkpoint — xử lý chuyên nghiệp. Hoàn tiền nếu thất bại.',price:200000,priceLabel:'Từ 150.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-unlock',borderColor:'rgba(255,77,109,.22)'},
   {id:'fb2',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-cyan',badgeTxt:'PHỔ BIẾN',ico:'fa-file-signature',title:'Kháng Cáo & Appeal',metas:['Đúng quy trình','3–14 ngày'],desc:'Fanpage bị gỡ, vi phạm bản quyền — kháng cáo đúng quy trình Facebook.',price:200000,priceLabel:'Từ 200.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-file-signature',borderColor:'rgba(96,165,250,.22)'},
-  {id:'fb3',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-amber',badgeTxt:'NHANH 24H',ico:'fa-traffic-light',title:'Vượt Checkpoint',metas:['Hỗ trợ 24h','OTP + Ảnh'],desc:'Bị checkpoint ảnh bạn bè, OTP không nhận — vượt trong 24h.',price:100000,priceLabel:'Từ 100.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-traffic-light',borderColor:'rgba(251,191,36,.18)'},
+  {id:'fb3',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-amber',badgeTxt:'NHANH 24H',ico:'fa-traffic-light',title:'Vượt Checkpoint',metas:['Hỗ trợ 24h','OTP + Ảnh'],desc:'Bị checkpoint ảnh bạn bè, OTP không nhận — vượt trong 24h.',price:200000,priceLabel:'Từ 100.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-traffic-light',borderColor:'rgba(251,191,36,.18)'},
   {id:'fb4',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-green',badgeTxt:'TĂNG TRƯỞNG',ico:'fa-arrow-trend-up',title:'Tăng Follower / Like',metas:['Tương tác thực','BH 30 ngày'],desc:'Tăng follower trang, like bài viết — an toàn không bay nick.',price:50000,priceLabel:'Từ 50.000đ',btn:'btn-cyan',btnTxt:'ĐẶT DỊCH VỤ',btnIco:'fa-users',borderColor:'rgba(16,185,129,.18)'},
   {id:'fb5',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-violet',badgeTxt:'BẢO MẬT',ico:'fa-shield-halved',title:'Bảo Mật 2FA',metas:['Xác thực 2 lớp','Miễn phí HD'],desc:'Cài xác thực 2 yếu tố, Trusted Contacts, khoá bảo mật nâng cao.',price:0,priceLabel:'Miễn phí',btn:'btn-outline',btnTxt:'XEM HƯỚNG DẪN',btnIco:'fa-shield-halved',isGuide:true,borderColor:'rgba(167,139,250,.18)'},
   {id:'fb6',img:'https://files.catbox.moe/rt07ln.jpeg',badge:'prod-badge-rose',badgeTxt:'KHẨN CẤP',ico:'fa-triangle-exclamation',title:'Khôi Phục Bị Hack',metas:['Ưu tiên 6h','Khẩn cấp'],desc:'Tài khoản bị đổi email/SĐT, hack chiếm quyền — xử lý khẩn cấp trong 6h.',price:300000,priceLabel:'Từ 300.000đ',btn:'btn-rose',btnTxt:'ĐẶT KHẨN CẤP',btnIco:'fa-exclamation-circle',borderColor:'rgba(255,77,109,.2)'},
